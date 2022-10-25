@@ -53,4 +53,6 @@ export const themeColors = {
   green1: "#F6FFED",
   green3: "#B7EB8F",
   green6: "#52C41A",
+
+  BG: "#F0F2F5",
 };

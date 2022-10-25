@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { HTMLAttributes } from "react";
+import { theme } from "../Constants/theme";
 
 export interface PropsType extends HTMLAttributes<HTMLHeadingElement> {
   direction?: string;
@@ -11,7 +12,7 @@ export const FlexDiv = styled.div<PropsType>`
   justify-content: ${(props: PropsType) => props.justify || "stretch"};
   align-items: stretch;
   margin: 0;
-  @media (max-width: 700px) {
+  @media (max-width: ${theme.mobile}) {
     flex-direction: column;
   }
 `;
