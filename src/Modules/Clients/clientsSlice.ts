@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ClientDto } from "../../Dto/clientDto";
+import { initialClients } from "../../Common/Constants/clients";
 
-interface ClientsState {
+export interface ClientsState {
   clients: ClientDto[];
   isFetching: boolean;
   error?: string;
@@ -9,7 +10,7 @@ interface ClientsState {
 
 const initialClientsState = {
   isFetching: false,
-  clients: new Array<ClientDto>(),
+  clients: initialClients,
 } as ClientsState;
 
 const clientsSlice = createSlice({

@@ -44,25 +44,6 @@ export const LogoText = styled.p`
 
   color: ${themeColors.gray10};
 `;
-export const FormElement = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-`;
-export const FormGroup = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-export const FormLabelStyled = styled.label`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-
-  color: ${themeColors.gray9};
-`;
 
 export const RegisterLinkContainer = styled.div`
   background: ${themeColors.gray1};

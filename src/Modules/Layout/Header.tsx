@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { sideBarMenu, SideBarMenuItem } from "./SideBar";
 import { themeColors } from "../../themeColors";
+import SlashSvg from "../../Asserts/Icons/slash.svg";
+import SVG, { Props as SVGProps } from "react-inlinesvg";
 
 const HeaderContainer = styled.div`
-  height: 125px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 11px 22px;
+  padding: 8px 22px;
   background: ${themeColors.gray1};
 
   color: ${themeColors.gray7};
@@ -19,6 +20,7 @@ const HeaderTitle = styled.p`
   font-size: 20px;
   line-height: 28px;
   color: ${themeColors.gray9};
+  margin: 0;
 `;
 const HomeLink = styled(Link)`
   font-weight: 400;
@@ -33,6 +35,14 @@ const CurrentPageLabel = styled.label`
   line-height: 22px;
   color: ${themeColors.gray8};
 `;
+const FirstLineDiv = styled.div`
+  display: inline;
+
+  svg {
+    width: 24px;
+    height: 16px;
+  }
+`;
 
 export const Header = () => {
   const path = useLocation().pathname;
@@ -40,10 +50,12 @@ export const Header = () => {
     ?.label;
   return (
     <HeaderContainer>
-      <div>
-        <HomeLink to="/">Главная</HomeLink> /{" "}
+      <FirstLineDiv>
+        <HomeLink to="/">Главная</HomeLink>
+
+        <SVG src={SlashSvg} width="24px" height="16px" />
         <CurrentPageLabel>{pageTitle}</CurrentPageLabel>
-      </div>
+      </FirstLineDiv>
       <HeaderTitle>{pageTitle}</HeaderTitle>
     </HeaderContainer>
   );

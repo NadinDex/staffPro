@@ -2,13 +2,18 @@ import styled from "styled-components";
 import { themeColors } from "../../themeColors";
 import React from "react";
 import { Input } from "../../Common/Components/Input/Input";
-import { Controller, FieldError, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FlexDiv } from "../../Common/Components/flexDiv";
 import { Checkbox } from "../../Common/Components/Checkbox";
 import { theme } from "../../Common/Constants/theme";
 import { ButtonStyled } from "../../Common/Components/buttonStyled";
 import { LoginDto } from "../../Dto/userDto";
-import { FormElement, FormLabelStyled } from "./authStyledElements";
+import { useAppDispatch } from "../../Config/Redux/core";
+import { userActions } from "../../Config/Redux/userSlice";
+import {
+  FormElement,
+  FormLabelStyled,
+} from "../../Common/Components/formStyledElements";
 
 const LoginStyledForm = styled.form`
   display: flex;
@@ -52,13 +57,13 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors, isDirty },
-    setValue,
-    control,
+    formState: { errors },
   } = useForm<LoginDto>();
 
-  const submitClick = () => {};
+  const dispatch = useAppDispatch();
+  const submitClick = (data: LoginDto) => {
+    dispatch(userActions.loginUser(data));
+  };
 
   return (
     <LoginStyledForm onSubmit={handleSubmit(submitClick)}>

@@ -17,10 +17,16 @@ export interface OptionTypeValueNumber {
   label: string;
   value: number | string;
 }
-/*export interface OptionTypeValueString {
-  label: string;
-  value: string;
-}*/
+
+export const getYearsList = (todayYear: number) => {
+  const years = Array.from(new Array(80), (val, index) => todayYear - index);
+  return years.map((value) => {
+    return {
+      label: value.toString(),
+      value: value,
+    } as OptionTypeValueNumber;
+  });
+};
 
 export const monthOptions = [
   {

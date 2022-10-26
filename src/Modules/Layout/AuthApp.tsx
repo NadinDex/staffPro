@@ -15,10 +15,14 @@ import styled from "styled-components";
 import { Header } from "./Header";
 import { SubMenu } from "./SubMenu";
 import { themeColors } from "../../themeColors";
+import { theme } from "../../Common/Constants/theme";
 
 const FullScreenContainer = styled.div`
   display: flex;
   height: 100vh;
+  @media (max-width: ${theme.mobile}) {
+    flex-direction: column;
+  }
 `;
 const MainContainer = styled.div`
   display: flex;
@@ -28,10 +32,15 @@ const MainContainer = styled.div`
 const PageBGSeparator = styled.div`
   background: ${themeColors.BG};
   padding: 24px;
+  height: 100%;
+  @media (max-width: ${theme.mobile}) {
+    padding: 0;
+    height: fit-content;
+  }
 `;
 const PageContainer = styled.div`
   background: ${themeColors.gray1};
-  padding: 24px;
+  height: 100%;
 `;
 
 export const AuthApp: React.FunctionComponent = () => {

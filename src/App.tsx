@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
@@ -11,8 +11,24 @@ import { RegisterForm } from "./Modules/Auth/Register/RegisterForm";
 import { ForgotPassword } from "./Modules/Auth/ForgotPassword";
 import { ClientList } from "./Modules/Clients/ClientList";
 import { ReportsAll } from "./Modules/Reports/ReportsAll";
+import { localStorageName } from "./Common/Constants/names";
+import { store } from "./Config/Redux/core";
+import { Accounts } from "./Modules/Accounts/Accounts";
+import { Discussions } from "./Modules/Discussions/Discussions";
+import { EdittingSettings } from "./Modules/Settings/EditingSettings";
 
 function App() {
+  useEffect(() => {
+    return () => {
+      window.onbeforeunload = () => {
+        localStorage.setItem(
+          localStorageName,
+          JSON.stringify(store.getState())
+        );
+      };
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -20,6 +36,10 @@ function App() {
           <Route path="/" element={<AuthApp />}>
             <Route path="/clients" element={<ClientList />} />
             <Route path="/reports" element={<ReportsAll />} />
+            <Route path="/accounts" element={<Accounts />} />
+            <Route path="/discussions" element={<Discussions />} />
+
+            <Route path="/settings" element={<EdittingSettings />} />
           </Route>
           <Route path="/unauth" element={<UnauthApp />}>
             <Route path="/unauth/login" element={<LoginPage />} />
@@ -34,8 +54,3 @@ function App() {
 }
 
 export default App;
-
-/*<Route path="/accounts" element={<AuthApp />} />
-            <Route path="/discussions" element={<AuthApp />} />
-            
-            <Route path="/settings" element={<AuthApp />} />*/

@@ -2,12 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoginDto, RegisterDto, UserDto } from "../../Dto/userDto";
 import bcrypt from "bcryptjs";
 
-interface UserState {
+export interface UserState {
   currentUser?: UserDto;
   users: UserDto[];
   isLoggedIn: boolean;
   isFetching: boolean;
   error?: string;
+  enterTries: {
+    email: string;
+    tries: number;
+  };
 }
 
 const initialState = {
@@ -38,8 +42,25 @@ const userSlice = createSlice({
     },
     loginUser: (state, action) => {
       state.currentUser = state.users.find(
-        (x) => x.email == (action.payload as UserDto).email
+        (x) => x.email == (action.payload as LoginDto).login
       );
+      if (!state.currentUser)
+        state.error = "Пользователь с таким эл. адресом и паролем не найден.";
+      if (
+        state.enterTries &&
+        state.enterTries.email === (action.payload as LoginDto).login
+      ) {
+        state.enterTries.tries += 1;
+        if (state.enterTries.tries >= 5)
+          state.error = "Превышено количество попыток входа, попробуйте позже";
+      } else
+        state.enterTries = {
+          email: (action.payload as LoginDto).login,
+          tries: 1,
+        };
+    },
+    logoutUser: (state) => {
+      state.currentUser = undefined;
     },
   },
 });

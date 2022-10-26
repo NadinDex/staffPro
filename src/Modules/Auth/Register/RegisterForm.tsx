@@ -3,10 +3,7 @@ import {
   FullScreanDiv,
   FormHeaderText,
   LogoText,
-  FormElement,
-  FormLabelStyled,
   RegisterLinkContainer,
-  FormGroup,
 } from "../authStyledElements";
 import { Input } from "../../../Common/Components/Input/Input";
 import { useForm, Controller } from "react-hook-form";
@@ -22,6 +19,7 @@ import {
   monthOptions,
   OptionTypeValueNumber,
   sexOptions,
+  getYearsList,
 } from "../../../Common/Constants/selectOptions";
 import Select from "react-select";
 import { Checkbox } from "../../../Common/Components/Checkbox";
@@ -30,7 +28,14 @@ import { ButtonStyled } from "../../../Common/Components/buttonStyled";
 import { useAppDispatch } from "../../../Config/Redux/core";
 import { userActions } from "../../../Config/Redux/userSlice";
 import { ErrorInputLabel } from "../../../Common/Components/ErrorInputLabel";
-import { RegisterStyledForm, RowOfTwo, RowOfElements } from "./registerStyles";
+import { RegisterStyledForm } from "./registerStyles";
+import {
+  FormElement,
+  FormLabelStyled,
+  FormGroupGap8,
+  RowOfTwo,
+  RowOfElements,
+} from "../../../Common/Components/formStyledElements";
 
 export const RegisterForm = () => {
   const {
@@ -50,13 +55,7 @@ export const RegisterForm = () => {
 
   const todayYear = new Date().getFullYear();
   const yearOptions = useMemo(() => {
-    const years = Array.from(new Array(80), (val, index) => todayYear - index);
-    return years.map((value) => {
-      return {
-        label: value.toString(),
-        value: value,
-      } as OptionTypeValueNumber;
-    });
+    return getYearsList(todayYear);
   }, [todayYear]);
 
   return (
@@ -141,7 +140,7 @@ export const RegisterForm = () => {
           />
           <ErrorInputLabel text={errors.passwordRepeat?.message} />
         </FormElement>
-        <FormGroup>
+        <FormGroupGap8>
           <FormLabelStyled>Дата рождения</FormLabelStyled>
           <RowOfElements>
             <FormElement>
@@ -205,7 +204,7 @@ export const RegisterForm = () => {
               <ErrorInputLabel text={errors.bYear?.message} />
             </FormElement>
           </RowOfElements>
-        </FormGroup>
+        </FormGroupGap8>
 
         <RowOfElements>
           <FormElement>

@@ -22,4 +22,11 @@ export interface RegisterDto extends UserDto {
   passwordRepeat: string;
   userAgreement: boolean;
 }
+
+export interface EditUserDto extends UserDto {
+  password: string;
+  passwordRepeat: string;
+  userAgreement: boolean;
+}
+
 export type sexType = "M" | "F";
