@@ -1,58 +1,11 @@
 import styled from "styled-components";
 import React, { FunctionComponent, useState } from "react";
-import AccountsIcon from "../../Asserts/Icons/accounts.svg";
-import ClientsIcon from "../../Asserts/Icons/clients.svg";
-import ReportsIcon from "../../Asserts/Icons/reports.svg";
-import SettingsIcon from "../../Asserts/Icons/settings.svg";
-import DiscusIcon from "../../Asserts/Icons/discussions.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { themeColors } from "../../themeColors";
 import SVG, { Props as SVGProps } from "react-inlinesvg";
 import { theme } from "../../Common/Constants/theme";
 import mobileMenu from "../../Asserts/Icons/mobileMenu.svg";
-
-export interface SideBarMenuItem {
-  link: string;
-  label: string;
-  img: string;
-  subItems?: string[];
-}
-export const sideBarMenu: SideBarMenuItem[] = [
-  {
-    link: "/reports",
-    label: "Отчеты",
-    img: ReportsIcon,
-    subItems: ["Все отчеты", "Избранное"],
-  },
-  {
-    link: "/accounts",
-    label: "Счета",
-    img: AccountsIcon,
-    subItems: [
-      "Все счета",
-      "Ожидание оплаты",
-      "Оплачено",
-      "Просрочено",
-      "Завершено",
-    ],
-  },
-  {
-    link: "/clients",
-    label: "Клиенты",
-    img: ClientsIcon,
-  },
-  {
-    link: "/discussions",
-    label: "Общение",
-    img: DiscusIcon,
-  },
-  {
-    link: "/settings",
-    label: "Настройки",
-    img: SettingsIcon,
-    subItems: ["Редактирование", "Привязанные аккаунты"],
-  },
-];
+import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
 
 const SideBarContainer = styled.div`
   flex: 0 0 200px;
@@ -61,12 +14,15 @@ const SideBarContainer = styled.div`
   bottom: 0;
   padding: 0;
   width: 200px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
 
   @media (max-width: ${theme.mobile}) {
     flex: 0 0 52px;
     width: 100%;
     padding: 10px 16px;
     background: ${themeColors.gray2};
+    box-shadow: none;
   }
 `;
 const SideBarList = styled.div`
@@ -131,9 +87,9 @@ const MobileMenuButton = styled.img`
 export const SideBar = () => {
   const [currentItem, setCurrentItem] = useState(sideBarMenu[0]);
   const navigate = useNavigate();
-  const location = useLocation();
+  const path = useLocation().pathname;
   const itemIsActive = (item: SideBarMenuItem) =>
-    location.pathname.endsWith(item.link);
+    path.endsWith(item.link) || path.includes(item.link + "/");
 
   const onItemClick = (item: SideBarMenuItem) => {
     setCurrentItem(item);

@@ -23,6 +23,7 @@ export const themeColors = {
 
   geekblue1: "#F0F5FF",
   geekblue3: "#ADC6FF",
+  geekblue6: "#2F54EB",
 
   red1: "#FFF1F0",
   red2: "#FFCCC7",

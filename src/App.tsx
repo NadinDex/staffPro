@@ -15,7 +15,7 @@ import { localStorageName } from "./Common/Constants/names";
 import { store } from "./Config/Redux/core";
 import { Accounts } from "./Modules/Accounts/Accounts";
 import { Discussions } from "./Modules/Discussions/Discussions";
-import { EdittingSettings } from "./Modules/Settings/EditingSettings";
+import { Settings } from "./Modules/Settings/Settings";
 
 function App() {
   useEffect(() => {
@@ -38,8 +38,7 @@ function App() {
             <Route path="/reports" element={<ReportsAll />} />
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/discussions" element={<Discussions />} />
-
-            <Route path="/settings" element={<EdittingSettings />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
           <Route path="/unauth" element={<UnauthApp />}>
             <Route path="/unauth/login" element={<LoginPage />} />

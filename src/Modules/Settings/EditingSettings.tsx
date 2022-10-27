@@ -31,12 +31,8 @@ import { SettingsButton } from "./SettingsButton";
 
 const SettingEdittingForm = styled.form`
   width: 100%;
-
   background: ${themeColors.gray1};
   border-radius: 2px;
-  @media (max-width: ${theme.mobile}) {
-    padding: 0 16px;
-  }
 `;
 const SettingFormContainer = styled.div`
   display: flex;
@@ -61,6 +57,13 @@ const SettingsFormLabel = styled.label`
   line-height: 18px;
   letter-spacing: 0.1px;
   color: ${themeColors.gray7};
+`;
+
+const NewPasswordDiv = styled.div`
+  @media (max-width: ${theme.mobile}) {
+    padding-bottom: 24px;
+  }
+  padding: 0;
 `;
 
 export const EdittingSettings = () => {
@@ -234,7 +237,7 @@ export const EdittingSettings = () => {
           </RowOfElements>
         </FormGroupGap2>
         <FormGroupSeparator />
-        <div>
+        <NewPasswordDiv>
           <RowOfTwo>
             <FormGroupGap2>
               <FormLabelStyled>Новый пароль</FormLabelStyled>
@@ -275,7 +278,7 @@ export const EdittingSettings = () => {
             Длина пароля должна составлять 8-20 символов, содержать цифры, буквы
             латинского алфавита в нижнем и верхнем регистре
           </SettingsFormLabel>
-        </div>
+        </NewPasswordDiv>
       </SettingFormContainer>
       <SettingsButton />
     </SettingEdittingForm>

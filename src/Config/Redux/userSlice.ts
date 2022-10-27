@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { LoginDto, RegisterDto, UserDto } from "../../Dto/userDto";
 import bcrypt from "bcryptjs";
 

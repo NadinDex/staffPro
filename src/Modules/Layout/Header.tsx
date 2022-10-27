@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
-import { sideBarMenu, SideBarMenuItem } from "./SideBar";
 import { themeColors } from "../../themeColors";
 import SlashSvg from "../../Asserts/Icons/slash.svg";
 import SVG, { Props as SVGProps } from "react-inlinesvg";
+import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
 
 const HeaderContainer = styled.div`
   display: flex;

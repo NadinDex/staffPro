@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { themeColors } from "../../themeColors";
-import { sideBarMenu, SideBarMenuItem } from "./SideBar";
 import { useLocation } from "react-router-dom";
+import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
 
 const SubMenuContainer = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const ItemContainer = styled.div`
       ? "inset 0px -2px 0px " + themeColors.blue6
       : "none"};
 
-  span {
+  a {
     margin: 11px 0;
     font-weight: 600;
     font-size: 14px;
@@ -35,16 +35,17 @@ const ItemContainer = styled.div`
 
 export const SubMenu = () => {
   const path = useLocation().pathname;
-  const subItems = sideBarMenu.find((x: SideBarMenuItem) => x.link == path)
-    ?.subItems;
+  const subItems = sideBarMenu.find(
+    (x: SideBarMenuItem) => x.link === "/" + path.split("/")[1]
+  )?.subItems;
 
   if (!subItems) return <></>;
-
+  console.log(path);
   return (
     <SubMenuContainer>
       {subItems.map((item) => (
-        <ItemContainer className="active">
-          <span>{item}</span>
+        <ItemContainer className={path.endsWith(item.link) ? "active" : ""}>
+          <a href={item.link}>{item.label}</a>
         </ItemContainer>
       ))}
     </SubMenuContainer>

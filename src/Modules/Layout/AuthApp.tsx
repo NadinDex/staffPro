@@ -1,14 +1,7 @@
 import { useAppSelector, useAppDispatch } from "../../Config/Redux/core";
 import { AppStateType } from "../../Config/Redux/configureStore";
 import { useState, useCallback } from "react";
-import {
-  useLocation,
-  useNavigate,
-  Outlet,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { useLocation, useNavigate, Outlet, Navigate } from "react-router-dom";
 import React from "react";
 import { SideBar } from "./SideBar";
 import styled from "styled-components";
@@ -16,6 +9,10 @@ import { Header } from "./Header";
 import { SubMenu } from "./SubMenu";
 import { themeColors } from "../../themeColors";
 import { theme } from "../../Common/Constants/theme";
+import {
+  PageBGSeparator,
+  PageContainer,
+} from "../../Common/Components/pageStyles";
 
 const FullScreenContainer = styled.div`
   display: flex;
@@ -28,19 +25,6 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
-const PageBGSeparator = styled.div`
-  background: ${themeColors.BG};
-  padding: 24px;
-  height: 100%;
-  @media (max-width: ${theme.mobile}) {
-    padding: 0;
-    height: fit-content;
-  }
-`;
-const PageContainer = styled.div`
-  background: ${themeColors.gray1};
-  height: 100%;
 `;
 
 export const AuthApp: React.FunctionComponent = () => {
@@ -65,12 +49,8 @@ export const AuthApp: React.FunctionComponent = () => {
       <SideBar />
       <MainContainer>
         <Header />
-        <SubMenu />
-        <PageBGSeparator>
-          <PageContainer>
-            <Outlet />
-          </PageContainer>
-        </PageBGSeparator>
+
+        <Outlet />
       </MainContainer>
     </FullScreenContainer>
   );
