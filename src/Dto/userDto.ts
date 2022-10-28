@@ -1,5 +1,5 @@
 export interface LoginDto {
-  login: string;
+  email: string;
   password: string;
 }
 
@@ -13,8 +13,12 @@ export interface UserDto {
   bDate: number;
   bMonth: number;
   bYear: number;
-  phone: string;
+  phone?: string;
   sex: string;
+  avatar?: string;
+  googleClientId?: string;
+  slackClientId?: string;
+  dropbox?: string;
 }
 
 export interface RegisterDto extends UserDto {
@@ -23,10 +27,9 @@ export interface RegisterDto extends UserDto {
   userAgreement: boolean;
 }
 
-export interface EditUserDto extends UserDto {
+export interface ChangePasswordDto {
   password: string;
   passwordRepeat: string;
-  userAgreement: boolean;
 }
 
 export type sexType = "M" | "F";

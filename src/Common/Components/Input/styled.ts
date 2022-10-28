@@ -40,7 +40,7 @@ export const StyledInputContainer = styled.div<InputProps>`
   input {
     margin: 8px 12px;
     border: none;
-    width: calc(100% - 24px);
+    width: calc(100% - ${(props) => (props.icon ? "50px" : "24px")});
     height: 22px;
     box-shadow: none;
     background: ${themeColors.gray1};
@@ -76,6 +76,10 @@ export const StyledInputContainer = styled.div<InputProps>`
   input::-ms-input-placeholder {
     /* Microsoft Edge */
     color: ${themeColors.gray6};
+  }
+  img {
+    width: 16px;
+    height: 16px;
   }
 `;
 

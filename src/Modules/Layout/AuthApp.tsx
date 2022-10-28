@@ -25,6 +25,10 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-left: 200px;
+  @media (max-width: ${theme.mobile}) {
+    margin-left: 0;
+  }
 `;
 
 export const AuthApp: React.FunctionComponent = () => {

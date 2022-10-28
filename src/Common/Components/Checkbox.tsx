@@ -43,7 +43,7 @@ const CheckboxContainer = styled.div`
 export type CheckboxProps = {
   label?: string;
   error?: string;
-  initialValue: boolean;
+  //initialValue: boolean;
   value?: boolean;
 } & ReactInputProps;
 

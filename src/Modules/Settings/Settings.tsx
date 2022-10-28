@@ -7,6 +7,7 @@ import {
 } from "../../Common/Components/pageStyles";
 import { EdittingSettings } from "./EditingSettings";
 import { SettingsAccLink } from "./SettingsAccLink";
+import { SettingsAccounts } from "./SettingAccounts";
 
 export const Settings = () => {
   const tabItems = [
@@ -18,7 +19,7 @@ export const Settings = () => {
     {
       label: `Привязанные аккаунты`,
       key: 2,
-      children: <SettingsAccLink />,
+      children: <SettingsAccounts />,
     },
   ];
   return (

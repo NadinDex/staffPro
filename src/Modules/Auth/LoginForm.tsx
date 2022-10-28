@@ -14,6 +14,7 @@ import {
   FormElement,
   FormLabelStyled,
 } from "../../Common/Components/formStyledElements";
+import { Password } from "../../Common/Components/Input/Password";
 
 const LoginStyledForm = styled.form`
   display: flex;
@@ -71,22 +72,31 @@ export const LoginForm = () => {
       <FormElement>
         <FormLabelStyled>Эл. адрес</FormLabelStyled>
         <Input
-          {...register("login", {
+          {...register("email", {
             required: "Login is required",
             maxLength: {
               value: 80,
               message: "Maximum length is 80",
             },
           })}
-          error={errors.login?.message}
+          error={errors.email?.message}
         />
       </FormElement>
       <FormElement>
         <FormLabelStyled>Пароль</FormLabelStyled>
-        <Input />
+        <Password
+          {...register("password", {
+            required: "Password is required",
+            maxLength: {
+              value: 80,
+              message: "Maximum length is 80",
+            },
+          })}
+          error={errors.password?.message}
+        />
       </FormElement>
       <FlexDiv style={{ width: "100%" }}>
-        <Checkbox label="Запомнить меня" initialValue={false} />
+        <Checkbox label="Запомнить меня" />
         <div style={{ marginLeft: "auto" }}>
           <StyledLink href="/unauth/recover-pass">Забыли пароль?</StyledLink>
         </div>

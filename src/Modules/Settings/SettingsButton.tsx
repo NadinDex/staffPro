@@ -1,6 +1,6 @@
-import { ButtonStyled } from "../../Common/Components/buttonStyled";
+import { ButtonStyled32 } from "../../Common/Components/buttonStyled";
 import styled from "styled-components";
-import React from "react";
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import { themeColors } from "../../themeColors";
 
 const SettingsButtonContainer = styled.div`
@@ -12,19 +12,19 @@ const SettingsButtonContainer = styled.div`
   gap: 10px;
   width: 100%;
 
-  //position: absolute;
   height: 72px;
-  //left: 224px;
-  //right: 24px;
-  //bottom: 24px;
   background: ${themeColors.gray1};
   box-shadow: inset 0px 1px 0px ${themeColors.gray5};
 `;
 
-export const SettingsButton = () => {
+export const SettingsButton = (
+  props: ButtonHTMLAttributes<HTMLButtonElement>
+) => {
   return (
     <SettingsButtonContainer>
-      <ButtonStyled type="submit">Сохранить изменения</ButtonStyled>
+      <ButtonStyled32 type="submit" {...props}>
+        Сохранить изменения
+      </ButtonStyled32>
     </SettingsButtonContainer>
   );
 };

@@ -6,6 +6,8 @@ import SVG, { Props as SVGProps } from "react-inlinesvg";
 import { theme } from "../../Common/Constants/theme";
 import mobileMenu from "../../Asserts/Icons/mobileMenu.svg";
 import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
+import { useAppDispatch } from "../../Config/Redux/core";
+import { userActions } from "../../Config/Redux/userSlice";
 
 const SideBarContainer = styled.div`
   flex: 0 0 200px;
@@ -15,9 +17,10 @@ const SideBarContainer = styled.div`
   padding: 0;
   width: 200px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  position: relative;
+  position: fixed;
 
   @media (max-width: ${theme.mobile}) {
+    position: relative;
     flex: 0 0 52px;
     width: 100%;
     padding: 10px 16px;
@@ -82,6 +85,10 @@ const MobileMenuButton = styled.img`
   @media (max-width: ${theme.mobile}) {
     width: 18.75px;
   }
+`;
+const LogoutDiv = styled.div`
+  margin-top: auto;
+  padding: 24px;
 `;
 
 export const SideBar = () => {

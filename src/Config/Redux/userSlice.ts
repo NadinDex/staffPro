@@ -26,41 +26,62 @@ const userSlice = createSlice({
   reducers: {
     registerUser: (state, action) => {
       const user = action.payload as RegisterDto;
-      let userDto = user as UserDto;
-      userDto.id = state.users ? Math.max(...state.users.map((x) => x.id)) : 1;
-      userDto.passHash = bcrypt.hashSync(
-        user.password,
-        "$2a$10$CwTycUXWue0Thq9StjUM0u"
-      );
+      let userDto = {
+        id: state.users ? Math.max(...state.users.map((x) => x.id)) : 1,
+        passHash: bcrypt.hashSync(
+          user.password,
+          "$2a$10$CwTycUXWue0Thq9StjUM0u"
+        ),
+        email: user.email,
+        lastName: user.lastName,
+        firstName: user.firstName,
+        fatherName: user.fatherName,
+        bDate: user.bDate,
+        bMonth: user.bMonth,
+        bYear: user.bYear,
+        phone: user.phone,
+        sex: user.sex,
+      } as UserDto;
+
       state.users.push(userDto);
     },
     updateUser: (state, action) => {
       if (state.currentUser) {
+        const index = state.users.indexOf(state.currentUser);
         state.currentUser = action.payload as UserDto;
-        //TODO
+        state.users[index] = state.currentUser;
       }
     },
     loginUser: (state, action) => {
       state.currentUser = state.users.find(
-        (x) => x.email == (action.payload as LoginDto).login
+        (x) =>
+          x.email == (action.payload as LoginDto).email &&
+          x.passHash ==
+            bcrypt.hashSync(
+              (action.payload as LoginDto).password,
+              "$2a$10$CwTycUXWue0Thq9StjUM0u"
+            )
       );
       if (!state.currentUser)
         state.error = "Пользователь с таким эл. адресом и паролем не найден.";
       if (
         state.enterTries &&
-        state.enterTries.email === (action.payload as LoginDto).login
+        state.enterTries.email === (action.payload as LoginDto).email
       ) {
         state.enterTries.tries += 1;
         if (state.enterTries.tries >= 5)
           state.error = "Превышено количество попыток входа, попробуйте позже";
       } else
         state.enterTries = {
-          email: (action.payload as LoginDto).login,
+          email: (action.payload as LoginDto).email,
           tries: 1,
         };
     },
     logoutUser: (state) => {
       state.currentUser = undefined;
+    },
+    crearUsers: (state) => {
+      state.users = new Array<UserDto>();
     },
   },
 });

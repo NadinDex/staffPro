@@ -39,11 +39,8 @@ export const Input = React.forwardRef<
       <input ref={ref} type={type} {...rest}>
         {children}
       </input>
-      {icon && (
-        <div onClick={() => iconClick?.()}>
-          <img src={icon} onClick={() => iconClick?.()} />
-        </div>
-      )}
+      {icon && <img src={icon} onClick={() => iconClick?.()} />}
     </StyledInputContainer>
   );
 });
+/*<div onClick={() => iconClick?.()}></div>*/

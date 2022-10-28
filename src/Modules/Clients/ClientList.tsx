@@ -12,6 +12,9 @@ import {
   PageContainer,
   PageBGSeparator,
 } from "../../Common/Components/pageStyles";
+import { theme } from "../../Common/Constants/theme";
+import useMatchMedia from "use-match-media-hook";
+import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
 
 const ClientsMainContainer = styled.div`
   padding: 24px;
@@ -21,6 +24,7 @@ const ClientsMainContainer = styled.div`
 `;
 
 export const ClientList = () => {
+  const [mobile] = useMatchMedia(matchMedieQueries);
   const clients = useAppSelector((store) => store.clients.clients);
   const columns: ColumnsType<ClientDto> = [
     {
@@ -71,14 +75,17 @@ export const ClientList = () => {
     <PageBGSeparator>
       <PageContainer>
         <ClientsMainContainer>
-          <TableView>
-            <Table dataSource={clients} columns={columns} rowKey="id" />
-          </TableView>
-          <CardView>
-            {clients.map((client) => (
-              <ClientCard client={client} key={client.id} />
-            ))}
-          </CardView>
+          {!mobile ? (
+            <TableView>
+              <Table dataSource={clients} columns={columns} rowKey="id" />
+            </TableView>
+          ) : (
+            <CardView>
+              {clients.map((client) => (
+                <ClientCard client={client} key={client.id} />
+              ))}
+            </CardView>
+          )}
         </ClientsMainContainer>
       </PageContainer>
     </PageBGSeparator>

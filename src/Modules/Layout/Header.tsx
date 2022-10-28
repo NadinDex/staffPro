@@ -5,6 +5,7 @@ import { themeColors } from "../../themeColors";
 import SlashSvg from "../../Asserts/Icons/slash.svg";
 import SVG, { Props as SVGProps } from "react-inlinesvg";
 import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
+import { theme } from "../../Common/Constants/theme";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -14,6 +15,10 @@ const HeaderContainer = styled.div`
   background: ${themeColors.gray1};
 
   color: ${themeColors.gray7};
+  @mobile (max-width: ${theme.mobile}) {
+    padding: 10px 16px;
+    gap: 12px px;
+  }
 `;
 const HeaderTitle = styled.p`
   font-weight: 600;

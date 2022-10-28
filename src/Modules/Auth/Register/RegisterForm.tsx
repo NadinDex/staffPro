@@ -147,7 +147,6 @@ export const RegisterForm = () => {
               <Input
                 type="number"
                 placeholder="День"
-                style={{ width: "170px" }}
                 {...register("bDate", {
                   required: "Обязательное поле",
                   min: { value: 1, message: "Минимум 1" },
@@ -248,7 +247,6 @@ export const RegisterForm = () => {
         </RowOfElements>
         <FormElement>
           <Checkbox
-            initialValue={false}
             label="Я согласен с "
             {...register("userAgreement", {
               required: "Для регистрации необходимо принять условия соглашения",

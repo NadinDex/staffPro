@@ -1,7 +1,7 @@
 export const initialClients = [
   {
     id: 1,
-    imageSrc: "./asserts/images/avatar1.png",
+    imageSrc: "http://localhost:3002/avatar1.png",
     phone: "(435) 174-3348",
     email: "napozj1@paw.com",
     company: "Awesome Company",
@@ -10,7 +10,7 @@ export const initialClients = [
   },
   {
     id: 2,
-    imageSrc: "./asserts/images/avatar2.png",
+    imageSrc: "http://localhost:3002/avatar2.png",
     phone: "(435) 274-3348",
     email: "napozj2@paw.com",
     company: "Awesome Company",
@@ -19,7 +19,7 @@ export const initialClients = [
   },
   {
     id: 3,
-    imageSrc: "./asserts/images/avatar3.png",
+    imageSrc: "http://localhost:3002/avatar3.png",
     phone: "(435) 374-3348",
     email: "napozj3@paw.com",
     company: "Awesome Company",
@@ -28,7 +28,7 @@ export const initialClients = [
   },
   {
     id: 4,
-    imageSrc: "./asserts/images/avatar4.png",
+    imageSrc: "http://localhost:3002/avatar4.png",
     phone: "(435) 474-3348",
     email: "napozj4@paw.com",
     company: "Awesome Company",
@@ -37,7 +37,7 @@ export const initialClients = [
   },
   {
     id: 5,
-    imageSrc: "./asserts/images/avatar5.png",
+    imageSrc: "http://localhost:3002/avatar5.png",
     phone: "(435) 574-3348",
     email: "napozj5@paw.com",
     company: "Awesome Company",
@@ -46,7 +46,7 @@ export const initialClients = [
   },
   {
     id: 6,
-    imageSrc: "./asserts/images/avatar6.png",
+    imageSrc: "http://localhost:3002/avatar6.png",
     phone: "(435) 674-3348",
     email: "napozj6@paw.com",
     company: "Awesome Company",
@@ -55,7 +55,7 @@ export const initialClients = [
   },
   {
     id: 7,
-    imageSrc: "./asserts/images/avatar7.png",
+    imageSrc: "http://localhost:3002/avatar7.png",
     phone: "(435) 774-3348",
     email: "napozj7@paw.com",
     company: "Awesome Company",
@@ -64,7 +64,7 @@ export const initialClients = [
   },
   {
     id: 8,
-    imageSrc: "./asserts/images/avatar1.png",
+    imageSrc: "http://localhost:3002/avatar1.png",
     phone: "(435) 884-3348",
     email: "napozj8@paw.com",
     company: "Awesome Company",
@@ -73,7 +73,7 @@ export const initialClients = [
   },
   {
     id: 9,
-    imageSrc: "./asserts/images/avatar2.png",
+    imageSrc: "http://localhost:3002/avatar2.png",
     phone: "(435) 474-2248",
     email: "napozj9@paw.com",
     company: "Awesome Company",
@@ -82,7 +82,7 @@ export const initialClients = [
   },
   {
     id: 10,
-    imageSrc: "./asserts/images/avatar3.png",
+    imageSrc: "http://localhost:3002/avatar3.png",
     phone: "(475) 474-3348",
     email: "napozj10@paw.com",
     company: "Awesome Company",
@@ -91,7 +91,7 @@ export const initialClients = [
   },
   {
     id: 11,
-    imageSrc: "./asserts/images/avatar4.png",
+    imageSrc: "http://localhost:3002/avatar4.png",
     phone: "(435) 714-3348",
     email: "napozj11@paw.com",
     company: "Awesome Company",
@@ -100,7 +100,7 @@ export const initialClients = [
   },
   {
     id: 12,
-    imageSrc: "./asserts/images/avatar5.png",
+    imageSrc: "http://localhost:3002/avatar5.png",
     phone: "(435) 994-3348",
     email: "napozj12@paw.com",
     company: "Awesome Company",
@@ -109,7 +109,7 @@ export const initialClients = [
   },
   {
     id: 13,
-    imageSrc: "./asserts/images/avatar6.png",
+    imageSrc: "http://localhost:3002/avatar6.png",
     phone: "(435) 132-3348",
     email: "napozj13@paw.com",
     company: "Awesome Company",
@@ -118,7 +118,7 @@ export const initialClients = [
   },
   {
     id: 14,
-    imageSrc: "./asserts/images/avatar7.png",
+    imageSrc: "http://localhost:3002/avatar7.png",
     phone: "(435) 167-3348",
     email: "napozj14@paw.com",
     company: "Awesome Company",
@@ -127,7 +127,7 @@ export const initialClients = [
   },
   {
     id: 15,
-    imageSrc: "./asserts/images/avatar1.png",
+    imageSrc: "http://localhost:3002/avatar1.png",
     phone: "(142) 888-3348",
     email: "napozj15@paw.com",
     company: "Awesome Company",
@@ -136,7 +136,7 @@ export const initialClients = [
   },
   {
     id: 16,
-    imageSrc: "./asserts/images/avatar2.png",
+    imageSrc: "http://localhost:3002/avatar2.png",
     phone: "(111) 474-3348",
     email: "napozj16@paw.com",
     company: "Awesome Company",

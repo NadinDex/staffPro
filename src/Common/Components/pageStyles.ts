@@ -20,6 +20,11 @@ export const TabContainer = styled.div`
   .ant-tabs-nav {
     margin: 0;
     margin-left: 23px;
+
+    @media (max-width: ${theme.mobile}) {
+      margin-left: 16px;
+      padding-top: 8px;
+    }
   }
   .ant-tabs-content-holder {
     height: 100%;

@@ -25,8 +25,8 @@ export const ButtonStyled32 = styled.button`
   border: none;
 
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 22px;
 
   color: ${themeColors.gray1};
 `;

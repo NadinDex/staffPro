@@ -12,6 +12,9 @@ import styled from "styled-components";
 import { AccountEdit } from "./AccountEdit";
 import { themeColors } from "../../themeColors";
 import { AccountAddButtons } from "./AccountAddButtons";
+import { theme } from "../../Common/Constants/theme";
+import useMatchMedia from "use-match-media-hook";
+import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
 
 const accountColumns = (
   deleteHandler: Function,
@@ -101,11 +104,13 @@ interface AccountsListProps {
 }
 
 export const AccountsList = (props: AccountsListProps) => {
+  const [mobile] = useMatchMedia(matchMedieQueries);
+
   const dispatch = useAppDispatch();
-
+  const accounts = useAppSelector(props.filter);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState<string>();
 
+  const [deleteId, setDeleteId] = useState<string>();
   const handleDeleteOk = () => {
     setIsDeleteConfirmOpen(false);
     dispatch(accountActions.deleteAccount(deleteId));
@@ -119,38 +124,43 @@ export const AccountsList = (props: AccountsListProps) => {
   };
 
   const [isEditFormOpen, setIsEditModalOpen] = useState(false);
-  const editAccount = () => {
+  const [accountForEdit, setAccountForEdit] = useState<AccountDto>();
+  const editAccount = (id: string) => {
     setIsEditModalOpen(true);
+    setAccountForEdit(accounts.find((x) => x.id === id));
   };
   const handleEditOk = () => {
     setIsEditModalOpen(false);
   };
-
   const handleEditCancel = () => {
     setIsEditModalOpen(false);
   };
 
-  const accounts = useAppSelector(props.filter);
   return (
     <AccountContainer>
-      <TableView>
-        <Table
-          dataSource={accounts}
-          columns={accountColumns(deleteAccount, editAccount)}
-          rowKey="id"
-        />
-      </TableView>
-      <CardView>
-        {accounts.map((account) => (
-          <AccountCard
-            account={account}
-            key={account.id}
-            deleteHandler={deleteAccount}
-            editHandler={editAccount}
+      {!mobile ? (
+        <TableView>
+          <Table
+            dataSource={accounts}
+            columns={accountColumns(deleteAccount, editAccount)}
+            rowKey="id"
+            pagination={accounts.length < 10 ? false : {}}
           />
-        ))}
-      </CardView>
+        </TableView>
+      ) : (
+        <CardView>
+          {accounts.map((account) => (
+            <AccountCard
+              account={account}
+              key={account.id}
+              deleteHandler={deleteAccount}
+              editHandler={editAccount}
+            />
+          ))}
+        </CardView>
+      )}
       <AccountEdit
+        account={accountForEdit}
         show={isEditFormOpen}
         onSubmit={handleEditOk}
         onClose={handleEditCancel}
@@ -160,6 +170,7 @@ export const AccountsList = (props: AccountsListProps) => {
         open={isDeleteConfirmOpen}
         onOk={handleDeleteOk}
         onCancel={handleDeleteCancel}
+        width={330}
       >
         <DeleteModalContainer>
           <DeleteModalTitle>Удаление счета</DeleteModalTitle>
@@ -187,29 +198,3 @@ const DeleteModalText = styled.p`
   text-align: center;
   color: ${themeColors.gray8};
 `;
-
-/*
-<Modal
-        title=""
-        open={isDeleteConfirmOpen}
-        onOk={handleDeleteOk}
-        onCancel={handleDeleteCancel}
-      >
-        <DeleteModalContainer>
-          <DeleteModalTitle></DeleteModalTitle>
-          <DeleteModalText></DeleteModalText>
-        </DeleteModalContainer>
-      </Modal>
-
-<Modal
-        title="Account"
-        style={{ left: 0, top: 0, bottom: 0 }}
-        open={isEditFormOpen}
-        onOk={handleEditOk}
-        onCancel={handleEditCancel}
-        footer={[<AccountAddButtons />]}
-      >
-        <AccountEdit />
-      </Modal>
-
-      */

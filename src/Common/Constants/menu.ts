@@ -3,6 +3,7 @@ import ClientsIcon from "../../Asserts/Icons/clients.svg";
 import ReportsIcon from "../../Asserts/Icons/reports.svg";
 import SettingsIcon from "../../Asserts/Icons/settings.svg";
 import DiscusIcon from "../../Asserts/Icons/discussions.svg";
+import LogoutIcon from "../../Asserts/Icons/exit.svg";
 
 export interface SubMenuItem {
   link: string;
@@ -54,5 +55,10 @@ export const sideBarMenu: SideBarMenuItem[] = [
       { label: "Редактирование", link: "/settings" },
       { label: "Привязанные аккаунты", link: "/settings/acc" },
     ],
+  },
+  {
+    link: "/logout",
+    label: "Выход",
+    img: LogoutIcon,
   },
 ];

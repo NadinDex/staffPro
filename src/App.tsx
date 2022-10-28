@@ -16,6 +16,7 @@ import { store } from "./Config/Redux/core";
 import { Accounts } from "./Modules/Accounts/Accounts";
 import { Discussions } from "./Modules/Discussions/Discussions";
 import { Settings } from "./Modules/Settings/Settings";
+import { Logout } from "./Modules/Layout/Logout";
 
 function App() {
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/discussions" element={<Discussions />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/logout" element={<Logout />} />
           </Route>
           <Route path="/unauth" element={<UnauthApp />}>
             <Route path="/unauth/login" element={<LoginPage />} />

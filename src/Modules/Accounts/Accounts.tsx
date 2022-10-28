@@ -126,18 +126,12 @@ export const Accounts = () => {
           })}
         />
       </TabContainer>
-      <Modal
-        title="Account"
-        open={isEditFormOpen}
-        onOk={handleEditOk}
-        onCancel={handleEditCancel}
-      >
-        <AccountEdit
-          show={isEditFormOpen}
-          onClose={handleEditCancel}
-          onSubmit={handleEditOk}
-        />
-      </Modal>
+
+      <AccountEdit
+        show={isEditFormOpen}
+        onClose={handleEditCancel}
+        onSubmit={handleEditOk}
+      />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { themeColors } from "../../themeColors";
-import React, { HTMLAttributes } from "react";
+import React, { HTMLAttributes, useEffect } from "react";
 import {
   FormGroupGap2,
   FormLabelStyled,
@@ -21,12 +21,11 @@ import { theme } from "../../Common/Constants/theme";
 const AccountForm = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: stretch;
   align-items: flex-start;
   gap: 10px;
 
   position: absolute;
-  left: 0%;
   right: 0%;
   top: 0%;
   bottom: 0%;
@@ -44,6 +43,7 @@ const AccountForm = styled.form`
 const AccountFormContainer = styled.div`
   padding: 16px;
   width: 100%;
+  height: 100%;
 `;
 
 const AccountFormHeader = styled.div`
@@ -68,7 +68,7 @@ export const ModalContainer = styled.div<ModalContainerPropsType>`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 8888;
+  //z-index: 8888;
   background: rgba(0, 0, 0, 0.3);
 
   left: ${(props: ModalContainerPropsType) => (props.show ? "0" : "100vw")};
@@ -78,6 +78,7 @@ export const ModalContent = styled.div`
 `;
 
 interface AccountEditPropsType extends HTMLAttributes<HTMLHeadingElement> {
+  account?: AccountDto;
   show: boolean;
   onClose: () => void;
   onSubmit: () => void;
@@ -88,6 +89,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     formState: { errors },
     control,
     handleSubmit,
+    reset,
   } = useForm<AccountDto>();
 
   const dispatch = useAppDispatch();
@@ -96,11 +98,27 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     props.onSubmit();
   };
 
+  useEffect(() => {
+    if (props.account) {
+      reset({
+        id: props.account?.id,
+        date: props.account.date,
+        deposit: props.account.deposit,
+        paid: props.account.paid,
+        state: props.account.state,
+      });
+    } else {
+      reset({});
+    }
+  }, []);
+
   return (
     <ModalContainer show={props.show}>
       <AccountForm onSubmit={handleSubmit((e) => submitClick(e as AccountDto))}>
         <AccountFormHeader>
-          <label>Добавление счета</label>
+          <label>
+            {props.account ? "Редактирование счета" : "Добавление счета"}
+          </label>
         </AccountFormHeader>
         <AccountFormContainer>
           <FormGroupSeparator />
@@ -182,11 +200,12 @@ export const AccountEdit = (props: AccountEditPropsType) => {
             <ErrorInputLabel text={errors.state?.message} />
             <ErrorInputLabel text={errors.id?.message} />
           </FormGroupGap2>
-          <AccountAddButtons
-            onClose={props.onClose}
-            onSubmit={props.onSubmit}
-          />
         </AccountFormContainer>
+        <AccountAddButtons
+          onClose={props.onClose}
+          onSubmit={props.onSubmit}
+          updateButton={props.account ? true : false}
+        />
       </AccountForm>
     </ModalContainer>
   );

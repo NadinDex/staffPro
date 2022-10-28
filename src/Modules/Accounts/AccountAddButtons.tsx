@@ -1,5 +1,4 @@
 import {
-  ButtonStyled,
   AccountButtonCancelStyled,
   AccountButtonStyled,
 } from "../../Common/Components/buttonStyled";
@@ -8,10 +7,10 @@ import React from "react";
 import { themeColors } from "../../themeColors";
 
 const SettingsButtonContainer = styled.div`
-  margin-top: aoto;
+  margin-top: auto;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  justify-content: flex-end;
   padding: 20px 16px;
   gap: 10px;
   width: 100%;
@@ -23,6 +22,7 @@ const SettingsButtonContainer = styled.div`
 interface AccountAddButtonsProps {
   onClose: () => void;
   onSubmit: () => void;
+  updateButton?: boolean;
 }
 export const AccountAddButtons = (props: AccountAddButtonsProps) => {
   return (
@@ -30,7 +30,9 @@ export const AccountAddButtons = (props: AccountAddButtonsProps) => {
       <AccountButtonCancelStyled type="reset" onClick={() => props.onClose()}>
         Отменить
       </AccountButtonCancelStyled>
-      <AccountButtonStyled type="submit">Добавить</AccountButtonStyled>
+      <AccountButtonStyled type="submit">
+        {props.updateButton ? "Изменить" : "Добавить"}
+      </AccountButtonStyled>
     </SettingsButtonContainer>
   );
 };

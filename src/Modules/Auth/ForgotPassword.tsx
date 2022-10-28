@@ -19,7 +19,7 @@ const ForgotPasswordForm = styled.form`
   gap: 24px;
 
   width: 282px;
-  height: 318px;
+  //height: 318px;
 
   background: ${themeColors.gray1};
   border-radius: 2px;

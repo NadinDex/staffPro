@@ -8,10 +8,28 @@ export interface ClientsState {
   error?: string;
 }
 
-const initialClientsState = {
+const getInitialClients = () => {
+  return fetch("http://localhost:3002/allClients")
+    .then((r) => r.json())
+    .then((r) =>
+      (r as ClientDto[]).map((x) => {
+        x.imageSrc = "http://localhost:3002" + x.imageSrc;
+        return x;
+      })
+    );
+  /*try {
+    const responce = await fetch("http://localhost:3002/allClients");
+    const json = await responce.json();
+    return (await JSON.parse(json)) as ClientDto[];
+  } catch (e) {
+    console.log(e);
+  }*/
+};
+
+const initialClientsState = ({
   isFetching: false,
-  clients: initialClients,
-} as ClientsState;
+  clients: getInitialClients(),
+} as unknown) as ClientsState;
 
 const clientsSlice = createSlice({
   name: "clients",
