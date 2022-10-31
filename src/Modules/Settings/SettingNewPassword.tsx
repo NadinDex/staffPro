@@ -28,15 +28,14 @@ const SettingsFormLabel = styled.label`
   color: ${themeColors.gray7};
 `;
 
-const PasswordEdittingForm = styled.form`
+const PasswordEdittingForm = styled.div`
   background: ${themeColors.gray1};
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 13px;
-  padding: 4px 24px 18px 24px;
-
+  padding: 6px 24px 16px 24px;
   width: 648px;
   @media (max-width: ${theme.mobile}) {
     padding: 0 16px;
@@ -61,7 +60,7 @@ export const SettingNewPassword = () => {
   const handleKeyUp = () => {};
 
   return (
-    <PasswordEdittingForm ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+    <PasswordEdittingForm>
       <NewPasswordDiv>
         <RowOfTwo>
           <FormGroupGap2>
@@ -70,7 +69,6 @@ export const SettingNewPassword = () => {
               <Password
                 onKeyUp={handleKeyUp}
                 {...register("password", {
-                  required: "Обязательное поле",
                   pattern: {
                     value: passwordLength,
                     message: "Пароль должен содержать от 8 до 64 символов",
@@ -87,7 +85,6 @@ export const SettingNewPassword = () => {
               <Password
                 onKeyUp={handleKeyUp}
                 {...register("passwordRepeat", {
-                  required: "Обязательное поле",
                   validate: {
                     positive: (value) =>
                       value === getValues().password || "Пароли не совпадают",
@@ -107,3 +104,4 @@ export const SettingNewPassword = () => {
     </PasswordEdittingForm>
   );
 };
+//ref={formRef} onSubmit={handleSubmit(onSubmit)}

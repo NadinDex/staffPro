@@ -28,8 +28,12 @@ export interface RegisterDto extends UserDto {
 }
 
 export interface ChangePasswordDto {
+  email: string;
   password: string;
   passwordRepeat: string;
+}
+export interface ChangePasswordEmailDto {
+  email: string;
 }
 
 export type sexType = "M" | "F";

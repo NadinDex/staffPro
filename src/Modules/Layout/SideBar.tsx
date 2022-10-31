@@ -1,13 +1,11 @@
 import styled from "styled-components";
-import React, { FunctionComponent, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { themeColors } from "../../themeColors";
-import SVG, { Props as SVGProps } from "react-inlinesvg";
+import SVG from "react-inlinesvg";
 import { theme } from "../../Common/Constants/theme";
 import mobileMenu from "../../Asserts/Icons/mobileMenu.svg";
 import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
-import { useAppDispatch } from "../../Config/Redux/core";
-import { userActions } from "../../Config/Redux/userSlice";
 
 const SideBarContainer = styled.div`
   flex: 0 0 200px;
@@ -86,13 +84,9 @@ const MobileMenuButton = styled.img`
     width: 18.75px;
   }
 `;
-const LogoutDiv = styled.div`
-  margin-top: auto;
-  padding: 24px;
-`;
 
 export const SideBar = () => {
-  const [currentItem, setCurrentItem] = useState(sideBarMenu[0]);
+  const [, setCurrentItem] = useState(sideBarMenu[0]);
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const itemIsActive = (item: SideBarMenuItem) =>

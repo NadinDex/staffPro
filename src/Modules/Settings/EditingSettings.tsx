@@ -44,9 +44,15 @@ const SettingFormContainer = styled.div`
     width: 100%;
   }
 `;
+const AvatarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 24px 0 24px;
+`;
 
 const SettingImageContainer = styled.div`
-  height: 95px;
+  height: 85px;
 `;
 
 export const EdittingSettings = () => {
@@ -67,7 +73,6 @@ export const EdittingSettings = () => {
   const dispatch = useAppDispatch();
   const submitClick = (data: UserDto) => {
     console.log(data);
-    //validation??
     dispatch(userActions.updateUser(data));
   };
 
@@ -78,25 +83,25 @@ export const EdittingSettings = () => {
 
   const onAvatarChanged = (value: string) => {
     setValue("avatar", value);
+    console.log("File URL => ", value);
   };
   const formRef = React.useRef<HTMLFormElement>(null);
   return (
     <>
-      <SettingEdittingForm
-        ref={formRef}
-        onSubmit={handleSubmit((e) => submitClick(e as UserDto))}
-      >
+      <AvatarContainer>
+        <FormGroupGap2>
+          <FormLabelStyled>Изображение</FormLabelStyled>
+          <SettingImageContainer>
+            <AvatarUpload
+              url={currentUser?.avatar}
+              onAfterUpload={onAvatarChanged}
+            />
+          </SettingImageContainer>
+        </FormGroupGap2>
+      </AvatarContainer>
+      <SettingEdittingForm ref={formRef} onSubmit={handleSubmit(submitClick)}>
+        <input type="hidden" {...register("avatar")} />
         <SettingFormContainer>
-          <FormGroupGap2>
-            <FormLabelStyled>Изображение</FormLabelStyled>
-            <SettingImageContainer>
-              <input type="hidden" {...register("avatar")} />
-              <AvatarUpload
-                url={currentUser?.avatar}
-                onAfterUpload={onAvatarChanged}
-              />
-            </SettingImageContainer>
-          </FormGroupGap2>
           <FormGroupGap2>
             <FormLabelStyled>E-mail</FormLabelStyled>
             <FormElement>
@@ -206,7 +211,7 @@ export const EdittingSettings = () => {
                       options={monthOptions}
                       onChange={onChange}
                       onBlur={onBlur}
-                      value={monthOptions.find((x) => x.value == value)}
+                      value={monthOptions.find((x) => x.value === value)?.value}
                       ref={ref}
                       name={name}
                       error={errors.bMonth?.message}
@@ -232,7 +237,7 @@ export const EdittingSettings = () => {
                       onBlur={onBlur}
                       value={
                         yearOptions
-                          ? yearOptions.find((x) => x.value == value)
+                          ? yearOptions.find((x) => x.value === value)?.value
                           : undefined
                       }
                       ref={ref}
@@ -246,14 +251,11 @@ export const EdittingSettings = () => {
             </RowOfElements>
           </FormGroupGap2>
         </SettingFormContainer>
+
+        <SettingNewPassword />
+
+        <SettingsButton />
       </SettingEdittingForm>
-      <SettingNewPassword />
-      <SettingsButton
-        onClick={() => {
-          formRef.current?.submit();
-          handleSubmit((e) => submitClick(e as UserDto));
-        }}
-      />
     </>
   );
 };

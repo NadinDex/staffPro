@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { themeColors } from "../../themeColors";
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "../../Common/Components/Input/Input";
 import { useForm } from "react-hook-form";
 import { FlexDiv } from "../../Common/Components/flexDiv";
@@ -8,13 +8,16 @@ import { Checkbox } from "../../Common/Components/Checkbox";
 import { theme } from "../../Common/Constants/theme";
 import { ButtonStyled } from "../../Common/Components/buttonStyled";
 import { LoginDto } from "../../Dto/userDto";
-import { useAppDispatch } from "../../Config/Redux/core";
+import { useAppDispatch, useAppSelector } from "../../Config/Redux/core";
 import { userActions } from "../../Config/Redux/userSlice";
 import {
   FormElement,
   FormLabelStyled,
 } from "../../Common/Components/formStyledElements";
 import { Password } from "../../Common/Components/Input/Password";
+
+import { message } from "antd";
+import { openNotification } from "../../App";
 
 const LoginStyledForm = styled.form`
   display: flex;
@@ -62,9 +65,21 @@ export const LoginForm = () => {
   } = useForm<LoginDto>();
 
   const dispatch = useAppDispatch();
+  const dispatchError = useAppSelector((store) => store.user.error);
   const submitClick = (data: LoginDto) => {
+    dispatch(userActions.clearError());
     dispatch(userActions.loginUser(data));
   };
+
+  useEffect(() => {
+    if (dispatchError)
+      openNotification({
+        message: dispatchError,
+        customClass: "Notification__error",
+        icon: null,
+      });
+    dispatch(userActions.clearError());
+  }, [dispatchError]);
 
   return (
     <LoginStyledForm onSubmit={handleSubmit(submitClick)}>
@@ -98,7 +113,9 @@ export const LoginForm = () => {
       <FlexDiv style={{ width: "100%" }}>
         <Checkbox label="Запомнить меня" />
         <div style={{ marginLeft: "auto" }}>
-          <StyledLink href="/unauth/recover-pass">Забыли пароль?</StyledLink>
+          <StyledLink href="/unauth/recover-pass-email">
+            Забыли пароль?
+          </StyledLink>
         </div>
       </FlexDiv>
       <ButtonStyled type="submit" style={{ width: "76px" }}>

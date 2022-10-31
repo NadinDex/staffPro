@@ -1,18 +1,13 @@
 import { useAppSelector, useAppDispatch } from "../../Config/Redux/core";
 import { AppStateType } from "../../Config/Redux/configureStore";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useLocation, useNavigate, Outlet, Navigate } from "react-router-dom";
 import React from "react";
 import { SideBar } from "./SideBar";
 import styled from "styled-components";
 import { Header } from "./Header";
-import { SubMenu } from "./SubMenu";
-import { themeColors } from "../../themeColors";
 import { theme } from "../../Common/Constants/theme";
-import {
-  PageBGSeparator,
-  PageContainer,
-} from "../../Common/Components/pageStyles";
+import { notification } from "antd";
 
 const FullScreenContainer = styled.div`
   display: flex;
@@ -39,10 +34,10 @@ export const AuthApp: React.FunctionComponent = () => {
     setMobileSideBarOpen(!mobileSideBarOpen);
   }, [mobileSideBarOpen]);
 
-  const location = useLocation();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const path = location.pathname;
+  const path = useLocation().pathname;
+  useEffect(() => {
+    notification.destroy();
+  }, [path]);
 
   if (!user && !path.includes("unauth")) {
     return <Navigate to="/unauth/login" />;

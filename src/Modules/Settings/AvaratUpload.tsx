@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ButtonStyled32 } from "../../Common/Components/buttonStyled";
 import styled from "styled-components";
 import { themeColors } from "../../themeColors";
+import noPerson from "../../Asserts/Icons/noPerson.svg";
+import ellipse from "../../Asserts/Icons/Ellipse.svg";
 
 interface StyledFileUploaderProps {
   url?: string;
@@ -38,6 +40,17 @@ const StyledFileUploader = styled.div<StyledFileUploaderProps>`
     }
   }
 `;
+const GrayCircleDiv = styled.div`
+  background-image: url(${ellipse});
+  background-repeat: no-repeat;
+  width: 64px;
+  height: 64px;
+  display: flex;
+
+  img {
+    margin: auto;
+  }
+`;
 
 interface AvatarUploadPropsType {
   onAfterUpload: any;
@@ -51,8 +64,9 @@ export const AvatarUpload = (props: AvatarUploadPropsType) => {
     const file = files[0];
     console.log("FILE =>", file);
     if (isImage(file.name)) {
-      setImageFile(file);
-      props.onAfterUpload(URL.createObjectURL(file));
+      const dinamisUrl = URL.createObjectURL(file);
+      setImageFile(dinamisUrl);
+      props.onAfterUpload(dinamisUrl);
     }
   };
 
@@ -79,23 +93,13 @@ export const AvatarUpload = (props: AvatarUploadPropsType) => {
         accept="image/*"
       />
 
-      <svg width="64" height="64">
-        {props.url ? (
-          <>
-            <pattern id="pattern" width="100%" height="100%">
-              <image
-                href={imageFile ? imageFile : props.url}
-                width="64"
-                height="64"
-                preserveAspectRatio="xMidYMin slice"
-              ></image>
-            </pattern>
-            <circle cx="32" cy="32" r="32" fill="url(#pattern)"></circle>
-          </>
-        ) : (
-          <circle cx="32" cy="32" r="32" fill="#BFBFBF" />
-        )}
-      </svg>
+      {props.url || imageFile ? (
+        <img src={imageFile ? imageFile : props.url} width="64" height="64" />
+      ) : (
+        <GrayCircleDiv>
+          <img src={noPerson} />
+        </GrayCircleDiv>
+      )}
 
       <ButtonStyled32 onClick={onButtonClick}>
         Изменить изображение
@@ -103,3 +107,16 @@ export const AvatarUpload = (props: AvatarUploadPropsType) => {
     </StyledFileUploader>
   );
 };
+
+/*
+<svg width="64" height="64">
+            <pattern id="pattern" width="100%" height="100%">
+              <image
+                href={imageFile ? imageFile : props.url}
+                width="64"
+                height="64"
+                preserveAspectRatio="xMidYMin slice"/>
+            </pattern>
+            <circle cx="32" cy="32" r="32" fill="url(#pattern)"></circle>
+          </svg>
+          */

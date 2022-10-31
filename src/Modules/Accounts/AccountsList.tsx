@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TableView, CardView } from "../../Common/Components/viewsStyled";
-import { Table, Space, Modal } from "antd";
+import { Table, Space, Modal, Drawer } from "antd";
 import { useAppSelector, useAppDispatch } from "../../Config/Redux/core";
 import { AccountCard } from "./AccountCard";
 import { accountActions } from "./accountSlice";
@@ -159,12 +159,20 @@ export const AccountsList = (props: AccountsListProps) => {
           ))}
         </CardView>
       )}
-      <AccountEdit
-        account={accountForEdit}
-        show={isEditFormOpen}
-        onSubmit={handleEditOk}
+      <Drawer
+        title="Редактирование счета"
+        placement="right"
+        open={isEditFormOpen}
         onClose={handleEditCancel}
-      />
+      >
+        <AccountEdit
+          account={accountForEdit}
+          show={isEditFormOpen}
+          onSubmit={handleEditOk}
+          onClose={handleEditCancel}
+        />
+      </Drawer>
+
       <Modal
         title=""
         open={isDeleteConfirmOpen}

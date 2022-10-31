@@ -17,6 +17,7 @@ import { AccountAddButtons } from "./AccountAddButtons";
 import { useAppDispatch } from "../../Config/Redux/core";
 import { accountActions } from "./accountSlice";
 import { theme } from "../../Common/Constants/theme";
+import moment from "moment";
 
 const AccountForm = styled.form`
   display: flex;
@@ -110,103 +111,106 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     } else {
       reset({});
     }
-  }, []);
+  }, [props.account]);
 
   return (
-    <ModalContainer show={props.show}>
-      <AccountForm onSubmit={handleSubmit((e) => submitClick(e as AccountDto))}>
-        <AccountFormHeader>
-          <label>
-            {props.account ? "Редактирование счета" : "Добавление счета"}
-          </label>
-        </AccountFormHeader>
-        <AccountFormContainer>
-          <FormGroupSeparator />
-          <FormGroupGap2>
-            <FormLabelStyled>Номер</FormLabelStyled>
-            <Input
-              placeholder="Номер"
-              {...register("id", {
-                required: "Обязательное поле",
-              })}
-              error={errors.id?.message}
-            />
-            <ErrorInputLabel text={errors.id?.message} />
-          </FormGroupGap2>
-          <FormGroupGap2>
-            <FormLabelStyled>Дата</FormLabelStyled>
-            <Controller
-              control={control}
-              name="date"
-              rules={{
-                required: "Обязательное поле",
-              }}
-              render={({ field: { onChange } }) => (
-                <DatePicker
-                  onChange={(date) => onChange(date)}
-                  placeholder="Дата"
-                />
-              )}
-            />
-            <ErrorInputLabel text={errors.id?.message} />
-          </FormGroupGap2>
-          <FormGroupGap2>
-            <FormLabelStyled>Взнос</FormLabelStyled>
-            <Input
-              placeholder="Взнос"
-              {...register("deposit", {
-                required: "Обязательное поле",
-              })}
-              error={errors.deposit?.message}
-            />
-            <ErrorInputLabel text={errors.id?.message} />
-          </FormGroupGap2>
-          <FormGroupGap2>
-            <FormLabelStyled>Оплачено</FormLabelStyled>
-            <Input
-              placeholder="Оплачено"
-              {...register("paid", {
-                required: "Обязательное поле",
-                min: {
-                  value: 0,
-                  message: "Не может быть отрицательным числом",
-                },
-              })}
-              error={errors.paid?.message}
-            />
-            <ErrorInputLabel text={errors.id?.message} />
-          </FormGroupGap2>
-          <FormGroupGap2>
-            <FormLabelStyled>Статус</FormLabelStyled>
-            <Controller
-              control={control}
-              name="state"
-              rules={{
-                required: "Обязательное поле",
-              }}
-              render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                <SelectComponent
-                  placeholder="Статус"
-                  options={AccountStatus}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  ref={ref}
-                  name={name}
-                  error={errors.state?.message}
-                />
-              )}
-            />
-            <ErrorInputLabel text={errors.state?.message} />
-            <ErrorInputLabel text={errors.id?.message} />
-          </FormGroupGap2>
-        </AccountFormContainer>
-        <AccountAddButtons
-          onClose={props.onClose}
-          onSubmit={props.onSubmit}
-          updateButton={props.account ? true : false}
-        />
-      </AccountForm>
-    </ModalContainer>
+    <AccountForm onSubmit={handleSubmit((e) => submitClick(e as AccountDto))}>
+      <AccountFormHeader>
+        <label>
+          {props.account ? "Редактирование счета" : "Добавление счета"}
+        </label>
+      </AccountFormHeader>
+      <AccountFormContainer>
+        <FormGroupSeparator />
+        <FormGroupGap2>
+          <FormLabelStyled>Номер</FormLabelStyled>
+          <Input
+            placeholder="Номер"
+            {...register("id", {
+              required: "Обязательное поле",
+            })}
+            error={errors.id?.message}
+          />
+          <ErrorInputLabel text={errors.id?.message} />
+        </FormGroupGap2>
+        <FormGroupGap2>
+          <FormLabelStyled>Дата</FormLabelStyled>
+          <Controller
+            control={control}
+            name="date"
+            rules={{
+              required: "Обязательное поле",
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <DatePicker
+                onChange={(date) => onChange(date)}
+                placeholder="Дата"
+                value={moment(value)}
+                onBlur={onBlur}
+              />
+            )}
+          />
+          <ErrorInputLabel text={errors.id?.message} />
+        </FormGroupGap2>
+        <FormGroupGap2>
+          <FormLabelStyled>Взнос</FormLabelStyled>
+          <Input
+            placeholder="Взнос"
+            {...register("deposit", {
+              required: "Обязательное поле",
+            })}
+            error={errors.deposit?.message}
+          />
+          <ErrorInputLabel text={errors.id?.message} />
+        </FormGroupGap2>
+        <FormGroupGap2>
+          <FormLabelStyled>Оплачено</FormLabelStyled>
+          <Input
+            placeholder="Оплачено"
+            {...register("paid", {
+              required: "Обязательное поле",
+              min: {
+                value: 0,
+                message: "Не может быть отрицательным числом",
+              },
+            })}
+            error={errors.paid?.message}
+          />
+          <ErrorInputLabel text={errors.id?.message} />
+        </FormGroupGap2>
+        <FormGroupGap2>
+          <FormLabelStyled>Статус</FormLabelStyled>
+          <Controller
+            control={control}
+            name="state"
+            rules={{
+              required: "Обязательное поле",
+            }}
+            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+              <SelectComponent
+                placeholder="Статус"
+                options={AccountStatus}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={AccountStatus.find((x) => x.label === value)?.value}
+                ref={ref}
+                name={name}
+                error={errors.state?.message}
+              />
+            )}
+          />
+          <ErrorInputLabel text={errors.state?.message} />
+          <ErrorInputLabel text={errors.id?.message} />
+        </FormGroupGap2>
+      </AccountFormContainer>
+      <AccountAddButtons
+        onClose={props.onClose}
+        onSubmit={props.onSubmit}
+        updateButton={props.account ? true : false}
+      />
+    </AccountForm>
   );
 };
+/* <ModalContainer show={props.show}>
+    </ModalContainer>
+    */

@@ -15,6 +15,7 @@ import {
 import { theme } from "../../Common/Constants/theme";
 import useMatchMedia from "use-match-media-hook";
 import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
+import { HeaderTitleDiv, HeaderTitle } from "../Layout/Header";
 
 const ClientsMainContainer = styled.div`
   padding: 24px;
@@ -72,22 +73,27 @@ export const ClientList = () => {
   ];
 
   return (
-    <PageBGSeparator>
-      <PageContainer>
-        <ClientsMainContainer>
-          {!mobile ? (
-            <TableView>
-              <Table dataSource={clients} columns={columns} rowKey="id" />
-            </TableView>
-          ) : (
-            <CardView>
-              {clients.map((client) => (
-                <ClientCard client={client} key={client.id} />
-              ))}
-            </CardView>
-          )}
-        </ClientsMainContainer>
-      </PageContainer>
-    </PageBGSeparator>
+    <>
+      <HeaderTitleDiv>
+        <HeaderTitle>Клиенты</HeaderTitle>
+      </HeaderTitleDiv>
+      <PageBGSeparator>
+        <PageContainer>
+          <ClientsMainContainer>
+            {!mobile ? (
+              <TableView>
+                <Table dataSource={clients} columns={columns} rowKey="id" />
+              </TableView>
+            ) : (
+              <CardView>
+                {clients.map((client) => (
+                  <ClientCard client={client} key={client.id} />
+                ))}
+              </CardView>
+            )}
+          </ClientsMainContainer>
+        </PageContainer>
+      </PageBGSeparator>
+    </>
   );
 };

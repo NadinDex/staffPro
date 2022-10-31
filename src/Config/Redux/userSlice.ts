@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LoginDto, RegisterDto, UserDto } from "../../Dto/userDto";
+import {
+  LoginDto,
+  RegisterDto,
+  UserDto,
+  ChangePasswordDto,
+} from "../../Dto/userDto";
 import bcrypt from "bcryptjs";
 
 export interface UserState {
@@ -11,6 +16,7 @@ export interface UserState {
   enterTries: {
     email: string;
     tries: number;
+    lastTry: Date;
   };
 }
 
@@ -53,35 +59,64 @@ const userSlice = createSlice({
       }
     },
     loginUser: (state, action) => {
-      state.currentUser = state.users.find(
-        (x) =>
-          x.email == (action.payload as LoginDto).email &&
-          x.passHash ==
-            bcrypt.hashSync(
-              (action.payload as LoginDto).password,
-              "$2a$10$CwTycUXWue0Thq9StjUM0u"
-            )
-      );
-      if (!state.currentUser)
-        state.error = "Пользователь с таким эл. адресом и паролем не найден.";
       if (
         state.enterTries &&
         state.enterTries.email === (action.payload as LoginDto).email
       ) {
+        if (
+          state.enterTries.lastTry &&
+          Date.now() - state.enterTries.lastTry.getMilliseconds() >
+            10 * 60 * 1000
+        ) {
+          state.enterTries.tries = 0;
+        }
         state.enterTries.tries += 1;
-        if (state.enterTries.tries >= 5)
+        state.enterTries.lastTry = new Date();
+        if (state.enterTries.tries > 5)
           state.error = "Превышено количество попыток входа, попробуйте позже";
       } else
         state.enterTries = {
           email: (action.payload as LoginDto).email,
           tries: 1,
+          lastTry: new Date(),
         };
+
+      if (state.enterTries.tries <= 5) {
+        state.currentUser = state.users.find(
+          (x) =>
+            x.email == (action.payload as LoginDto).email &&
+            x.passHash ==
+              bcrypt.hashSync(
+                (action.payload as LoginDto).password,
+                "$2a$10$CwTycUXWue0Thq9StjUM0u"
+              )
+        );
+        if (!state.currentUser) {
+          state.error = "Пользователь с таким эл. адресом и паролем не найден.";
+        }
+      }
     },
     logoutUser: (state) => {
       state.currentUser = undefined;
     },
     crearUsers: (state) => {
       state.users = new Array<UserDto>();
+    },
+    clearError: (state) => {
+      state.error = undefined;
+    },
+    chengePassword: (state, action) => {
+      const user = state.users.find(
+        (x) => x.email === (action.payload as ChangePasswordDto).email
+      );
+      if (user) {
+        const index = state.users.indexOf(user);
+        user.passHash = bcrypt.hashSync(
+          (action.payload as ChangePasswordDto).password,
+          "$2a$10$CwTycUXWue0Thq9StjUM0u"
+        );
+        state.users[index] = { ...user };
+      }
     },
   },
 });

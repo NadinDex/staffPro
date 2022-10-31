@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tabs, Modal } from "antd";
+import { Tabs, Modal, Drawer } from "antd";
 import styled from "styled-components";
 import {
   PageBGSeparator,
@@ -11,6 +11,10 @@ import { AppStateType } from "../../Config/Redux/configureStore";
 import { AccountStatus } from "../../Common/Constants/accountStatus";
 import { AccountsList } from "./AccountsList";
 import { AccountEdit } from "./AccountEdit";
+import useMatchMedia from "use-match-media-hook";
+import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
+import { theme } from "../../Common/Constants/theme";
+import { HeaderTitle, HeaderTitleDiv } from "../Layout/Header";
 
 const AccountAddButton = styled(ButtonStyled32)`
   font-weight: 400;
@@ -18,6 +22,10 @@ const AccountAddButton = styled(ButtonStyled32)`
   line-height: 22px;
 
   margin: 0 24px 12px 0;
+  @media (max-width: ${theme.mobile}) {
+    margin: 0;
+    margin-left: auto;
+  }
 `;
 
 export const Accounts = () => {
@@ -88,6 +96,7 @@ export const Accounts = () => {
       ),
     },
   ];
+  const [mobile] = useMatchMedia(matchMedieQueries);
   const operations = (
     <AccountAddButton onClick={() => editAccount()}>
       + Добавить новый счет
@@ -108,10 +117,14 @@ export const Accounts = () => {
 
   return (
     <>
+      <HeaderTitleDiv>
+        <HeaderTitle>Счета</HeaderTitle>
+        {mobile && operations}
+      </HeaderTitleDiv>
       <TabContainer>
         <Tabs
           style={{ height: "100%" }}
-          tabBarExtraContent={operations}
+          tabBarExtraContent={!mobile && operations}
           items={tabItems.map((x, i) => {
             const id = String(i);
             return {
@@ -126,12 +139,23 @@ export const Accounts = () => {
           })}
         />
       </TabContainer>
-
-      <AccountEdit
-        show={isEditFormOpen}
+      <Drawer
+        title="Добавление счета"
+        placement="right"
         onClose={handleEditCancel}
-        onSubmit={handleEditOk}
-      />
+        open={isEditFormOpen}
+      >
+        <AccountEdit
+          show={isEditFormOpen}
+          onSubmit={handleEditOk}
+          onClose={handleEditCancel}
+        />
+      </Drawer>
     </>
   );
 };
+/*<AccountEdit
+        show={isEditFormOpen}
+        onClose={handleEditCancel}
+        onSubmit={handleEditOk}
+      />*/

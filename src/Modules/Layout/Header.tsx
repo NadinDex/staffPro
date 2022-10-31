@@ -6,6 +6,7 @@ import SlashSvg from "../../Asserts/Icons/slash.svg";
 import SVG, { Props as SVGProps } from "react-inlinesvg";
 import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
 import { theme } from "../../Common/Constants/theme";
+import { Breadcrumb } from "antd";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -15,12 +16,21 @@ const HeaderContainer = styled.div`
   background: ${themeColors.gray1};
 
   color: ${themeColors.gray7};
-  @mobile (max-width: ${theme.mobile}) {
+  @media (max-width: ${theme.mobile}) {
     padding: 10px 16px;
-    gap: 12px px;
+    gap: 12px;
   }
 `;
-const HeaderTitle = styled.p`
+export const HeaderTitleDiv = styled.div`
+  display: flex;
+  padding: 8px 22px 0 22px;
+  background: ${themeColors.gray1};
+  color: ${themeColors.gray7};
+  @media (max-width: ${theme.mobile}) {
+    padding: 6px 16px;
+  }
+`;
+export const HeaderTitle = styled.p`
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
@@ -55,13 +65,17 @@ export const Header = () => {
     ?.label;
   return (
     <HeaderContainer>
-      <FirstLineDiv>
-        <HomeLink to="/">Главная</HomeLink>
-
-        <SVG src={SlashSvg} width="24px" height="16px" />
-        <CurrentPageLabel>{pageTitle}</CurrentPageLabel>
-      </FirstLineDiv>
-      <HeaderTitle>{pageTitle}</HeaderTitle>
+      <Breadcrumb>
+        <Breadcrumb.Item>Главная</Breadcrumb.Item>
+        <Breadcrumb.Item>{pageTitle}</Breadcrumb.Item>
+      </Breadcrumb>
     </HeaderContainer>
   );
 };
+/*
+<FirstLineDiv>
+        <HomeLink to="/">Главная</HomeLink>
+        <SVG src={SlashSvg} width="24px" height="16px" />
+        <CurrentPageLabel>{pageTitle}</CurrentPageLabel>
+      </FirstLineDiv>
+      */
