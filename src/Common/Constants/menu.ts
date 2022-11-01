@@ -14,6 +14,7 @@ export interface SideBarMenuItem {
   label: string;
   img: string;
   subItems?: SubMenuItem[];
+  isLogout?: boolean;
 }
 export const sideBarMenu: SideBarMenuItem[] = [
   {
@@ -60,5 +61,6 @@ export const sideBarMenu: SideBarMenuItem[] = [
     link: "/logout",
     label: "Выход",
     img: LogoutIcon,
+    isLogout: true,
   },
 ];

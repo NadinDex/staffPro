@@ -8,7 +8,7 @@ export const ForgotPasswordForm = styled.form`
   align-items: flex-start;
   padding: 24px;
   gap: 24px;
-  width: 282px;
+  width: 330px;
 
   background: ${themeColors.gray1};
   border-radius: 2px;

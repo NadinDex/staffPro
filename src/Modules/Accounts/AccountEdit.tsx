@@ -11,7 +11,7 @@ import { AccountDto } from "../../Dto/accountDto";
 import { useForm, Controller } from "react-hook-form";
 import { ErrorInputLabel } from "../../Common/Components/ErrorInputLabel";
 import { DatePicker } from "antd";
-import { SelectComponent } from "../Auth/Select";
+import { SelectComponent } from "../../Common/Components/Select";
 import { AccountStatus } from "../../Common/Constants/accountStatus";
 import { AccountAddButtons } from "./AccountAddButtons";
 import { useAppDispatch } from "../../Config/Redux/core";
@@ -211,6 +211,3 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     </AccountForm>
   );
 };
-/* <ModalContainer show={props.show}>
-    </ModalContainer>
-    */

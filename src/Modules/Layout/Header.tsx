@@ -23,7 +23,7 @@ const HeaderContainer = styled.div`
 `;
 export const HeaderTitleDiv = styled.div`
   display: flex;
-  padding: 8px 22px 0 22px;
+  padding: 0px 22px 10px 22px;
   background: ${themeColors.gray1};
   color: ${themeColors.gray7};
   @media (max-width: ${theme.mobile}) {

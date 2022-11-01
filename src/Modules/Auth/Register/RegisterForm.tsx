@@ -23,7 +23,7 @@ import {
 } from "../../../Common/Constants/selectOptions";
 import Select from "react-select";
 import { Checkbox } from "../../../Common/Components/Checkbox";
-import { SelectComponent } from "../Select";
+import { SelectComponent } from "../../../Common/Components/Select";
 import { ButtonStyled } from "../../../Common/Components/buttonStyled";
 import { useAppDispatch } from "../../../Config/Redux/core";
 import { userActions } from "../../../Config/Redux/userSlice";
@@ -36,6 +36,7 @@ import {
   RowOfTwo,
   RowOfElements,
 } from "../../../Common/Components/formStyledElements";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterForm = () => {
   const {
@@ -46,11 +47,13 @@ export const RegisterForm = () => {
     getValues,
   } = useForm<RegisterDto>();
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const submitClick = (data: RegisterDto) => {
     console.log(data);
     //validation??
     dispatch(userActions.registerUser(data));
+    navigate("/");
   };
 
   const todayYear = new Date().getFullYear();
@@ -206,11 +209,10 @@ export const RegisterForm = () => {
         </FormGroupGap8>
 
         <RowOfElements>
-          <FormElement>
+          <FormElement style={{ width: "349px" }}>
             <Input
               type="tel"
               placeholder="Телефон (опционально)"
-              style={{ width: "349px" }}
               {...register("phone", {
                 pattern: {
                   value: phoneReg,
@@ -221,7 +223,7 @@ export const RegisterForm = () => {
             />
             <ErrorInputLabel text={errors.phone?.message} />
           </FormElement>
-          <FormElement>
+          <FormElement style={{ width: "225px" }}>
             <Controller
               control={control}
               name="sex"
@@ -237,7 +239,6 @@ export const RegisterForm = () => {
                   value={value}
                   ref={ref}
                   name={name}
-                  width="225px"
                   error={errors.sex?.message}
                 />
               )}
@@ -258,7 +259,9 @@ export const RegisterForm = () => {
               политикой обработки персональных данных пользователей
             </a>
           </Checkbox>
-          <ErrorInputLabel text={errors.userAgreement?.message} />
+          {errors.userAgreement?.message && (
+            <ErrorInputLabel text={errors.userAgreement?.message} />
+          )}
         </FormElement>
         <ButtonStyled
           type="submit"

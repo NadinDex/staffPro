@@ -69,6 +69,7 @@ export const LoginForm = () => {
   const submitClick = (data: LoginDto) => {
     dispatch(userActions.clearError());
     dispatch(userActions.loginUser(data));
+    //dispatch(userActions.crearUsers());
   };
 
   useEffect(() => {

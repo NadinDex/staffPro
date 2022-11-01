@@ -154,8 +154,3 @@ export const Accounts = () => {
     </>
   );
 };
-/*<AccountEdit
-        show={isEditFormOpen}
-        onClose={handleEditCancel}
-        onSubmit={handleEditOk}
-      />*/

@@ -14,7 +14,6 @@ const StyledStatusDiv = styled.div<StyledStatusDivProps>`
   padding: 1px 8px;
 
   width: fit-content;
-  //height: 22px;
 
   background: ${(props) => props.status.bgColor};
   border: 1px solid ${(props) => props.status.borderColor};

@@ -27,8 +27,13 @@ const SideBarContainer = styled.div`
   }
 `;
 const SideBarList = styled.div`
-  height: fit-content;
+  //height: fit-content;
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 36px);
+
   @media (max-width: ${theme.mobile}) {
     height: 0;
     width: 100%;
@@ -106,6 +111,7 @@ export const SideBar = () => {
           <NavContainer
             key={item.label}
             className={itemIsActive(item) ? "active" : ""}
+            style={item.isLogout ? { marginTop: "auto" } : {}}
           >
             <NavBarLink
               onClick={() => onItemClick(item)}
@@ -113,7 +119,9 @@ export const SideBar = () => {
             >
               <SVG
                 src={item.img}
-                fill={itemIsActive(item) ? "#1890FF" : "#595959"}
+                fill={
+                  itemIsActive(item) ? themeColors.blue6 : themeColors.gray8
+                }
               />
               <label>{item.label}</label>
             </NavBarLink>

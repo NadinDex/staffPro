@@ -1,6 +1,7 @@
 import { Input, InputProps } from "./Input";
 import React, { useState } from "react";
 import unhidePass from "../../../Asserts/Icons/unhidePass.svg";
+import hidePass from "../../../Asserts/Icons/hidePass.svg";
 
 export const Password = React.forwardRef<
   HTMLInputElement,
@@ -13,7 +14,7 @@ export const Password = React.forwardRef<
       {...rest}
       type={unhide ? "text" : "password"}
       ref={ref}
-      icon={unhide ? unhidePass : unhidePass}
+      icon={unhide ? hidePass : unhidePass}
       iconClick={() => {
         setUnhide(!unhide);
       }}

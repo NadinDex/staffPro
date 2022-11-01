@@ -14,7 +14,7 @@ export const Discussions = () => {
       </HeaderTitleDiv>
       {discussions.map((d) => (
         <div onClick={() => setActiveId(d.id)}>
-          <DiscussionCard item={d} isActive={d.id === activeId} />
+          <DiscussionCard key={d.id} item={d} isActive={d.id === activeId} />
         </div>
       ))}
 

@@ -29,6 +29,7 @@ export const FormHeaderText = styled.p`
   text-align: center;
   width: 100%;
   margin: 0;
+  padding-bottom: 6px;
 `;
 
 export const LogoText = styled.p`
@@ -48,6 +49,7 @@ export const LogoText = styled.p`
 export const RegisterLinkContainer = styled.div`
   background: ${themeColors.gray1};
   margin: auto;
+  padding-top: 8px;
 
   @media (max-width: ${theme.mobile}) {
     position: relative;

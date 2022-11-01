@@ -33,7 +33,10 @@ const userSlice = createSlice({
     registerUser: (state, action) => {
       const user = action.payload as RegisterDto;
       let userDto = {
-        id: state.users ? Math.max(...state.users.map((x) => x.id)) : 1,
+        id:
+          state.users && state.users.length > 0
+            ? Math.max(...state.users.map((x) => x.id)) + 1
+            : 1,
         passHash: bcrypt.hashSync(
           user.password,
           "$2a$10$CwTycUXWue0Thq9StjUM0u"
@@ -54,8 +57,13 @@ const userSlice = createSlice({
     updateUser: (state, action) => {
       if (state.currentUser) {
         const index = state.users.indexOf(state.currentUser);
-        state.currentUser = action.payload as UserDto;
-        state.users[index] = state.currentUser;
+        if (index) {
+          state.currentUser = action.payload as UserDto;
+          state.users.splice(index, 1, state.currentUser);
+          state.users[index] = state.currentUser;
+        } else {
+          state.error = "Update user problem";
+        }
       }
     },
     loginUser: (state, action) => {

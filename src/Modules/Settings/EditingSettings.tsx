@@ -17,7 +17,7 @@ import { Input } from "../../Common/Components/Input/Input";
 import { emailReg, phoneReg } from "../../Common/Constants/regex";
 import { themeColors } from "../../themeColors";
 import { theme } from "../../Common/Constants/theme";
-import { SelectComponent } from "../Auth/Select";
+import { SelectComponent } from "../../Common/Components/Select";
 import {
   monthOptions,
   getYearsList,
@@ -25,6 +25,7 @@ import {
 import { SettingsButton } from "./SettingsButton";
 import { AvatarUpload } from "./AvaratUpload";
 import { SettingNewPassword } from "./SettingNewPassword";
+import { openNotification } from "../../App";
 
 const SettingEdittingForm = styled.form`
   width: 100%;
@@ -75,6 +76,17 @@ export const EdittingSettings = () => {
     console.log(data);
     dispatch(userActions.updateUser(data));
   };
+
+  const error = useAppSelector((store) => store.user.error);
+  useEffect(() => {
+    if (error)
+      openNotification({
+        message: error,
+        customClass: "Notification__error",
+        icon: null,
+      });
+    dispatch(userActions.clearError());
+  }, [error]);
 
   const todayYear = new Date().getFullYear();
   const yearOptions = useMemo(() => {

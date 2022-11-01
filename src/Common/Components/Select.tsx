@@ -1,8 +1,8 @@
 import Select from "react-select";
 import { ControllerRenderProps } from "react-hook-form";
 import React from "react";
-import { selectCustomStyles } from "../../Common/Components/selectCustomStyle";
-import { OptionTypeValueNumber } from "../../Common/Constants/selectOptions";
+import { selectCustomStyles } from "./selectCustomStyle";
+import { OptionTypeValueNumber } from "../Constants/selectOptions";
 import styled from "styled-components";
 import { themeColors } from "../../themeColors";
 

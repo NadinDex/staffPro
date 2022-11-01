@@ -10,7 +10,7 @@ import { LoginPage } from "./Modules/Auth/LoginPage";
 import { RegisterForm } from "./Modules/Auth/Register/RegisterForm";
 import { ForgotPasswordEmail } from "./Modules/Auth/ForgotPasswordEmail";
 import { ClientList } from "./Modules/Clients/ClientList";
-import { ReportsAll } from "./Modules/Reports/ReportsAll";
+import { Reports } from "./Modules/Reports/Reports";
 import { localStorageName } from "./Common/Constants/names";
 import { store } from "./Config/Redux/core";
 import { Accounts } from "./Modules/Accounts/Accounts";
@@ -67,7 +67,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AuthApp />}>
             <Route path="/clients" element={<ClientList />} />
-            <Route path="/reports" element={<ReportsAll />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path="/accounts" element={<Accounts />} />
             <Route path="/discussions" element={<Discussions />} />
             <Route path="/settings" element={<Settings />} />
@@ -85,6 +85,10 @@ function App() {
               element={<ForgotPasswordEmailConfirmed />}
             />
             <Route path="/unauth/recover-pass" element={<ForgotPassword />} />
+            <Route
+              path="/unauth/recover-pass/:email"
+              element={<ForgotPassword />}
+            />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

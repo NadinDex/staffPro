@@ -7,9 +7,9 @@ export const RegisterStyledForm = styled.form`
   flex-direction: column;
   align-items: flex-start;
   padding: 24px;
-  gap: 24px;
+  gap: 20px;
 
-  width: 600px;
+  width: 648px;
 
   background: ${themeColors.gray1};
   border-radius: 2px;
