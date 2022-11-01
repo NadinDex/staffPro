@@ -9,7 +9,7 @@ import { theme } from "../../Common/Constants/theme";
 const SettingsAccountsMainDiv = styled.div`
   padding: 24px;
   @media (max-width: ${theme.mobile}) {
-    padding: 0 16px;
+    padding: 24px 16px;
   }
 `;
 const ItemDiv = styled.div``;

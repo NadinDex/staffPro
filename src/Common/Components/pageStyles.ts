@@ -38,4 +38,7 @@ export const TabContainer = styled.div`
   .ant-tabs-tabpane {
     height: 100%;
   }
+  .ant-tabs-nav::before {
+    border-bottom: none;
+  }
 `;
