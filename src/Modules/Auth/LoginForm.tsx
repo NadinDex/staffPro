@@ -65,13 +65,14 @@ export const LoginForm = () => {
   } = useForm<LoginDto>();
 
   const dispatch = useAppDispatch();
-  const dispatchError = useAppSelector((store) => store.user.error);
+
   const submitClick = (data: LoginDto) => {
     dispatch(userActions.clearError());
     dispatch(userActions.loginUser(data));
     //dispatch(userActions.crearUsers());
   };
 
+  const dispatchError = useAppSelector((store) => store.user.error);
   useEffect(() => {
     if (dispatchError)
       openNotification({

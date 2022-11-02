@@ -149,6 +149,7 @@ export const Accounts = () => {
           show={isEditFormOpen}
           onSubmit={handleEditOk}
           onClose={handleEditCancel}
+          account={undefined}
         />
       </Drawer>
     </>

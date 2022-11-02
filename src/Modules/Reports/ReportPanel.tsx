@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { themeColors } from "../../themeColors";
-import React, { useState } from "react";
-import { ReportCategoryDto, ReportDto } from "../../Dto/reportsDto";
+import React, { useState, useEffect } from "react";
+import { ReportDto } from "../../Dto/reportsDto";
 import favIco from "../../Asserts/Icons/favIco.svg";
 import noFavIco from "../../Asserts/Icons/favNoIco.svg";
 import panelArrow from "../../Asserts/Icons/panelArrow.svg";
 import { Tag } from "antd";
 import SVG from "react-inlinesvg";
-import { OmitProps } from "antd/lib/transfer/ListBody";
+import { useAppDispatch, useAppSelector } from "../../Config/Redux/core";
+import { reportsActions } from "./reportSlice";
+import { openNotification } from "../../App";
 
 interface ReportPanelStyledProps {
   isOpen?: boolean;
@@ -81,22 +83,52 @@ interface ReportPanelProps {
 }
 export const ReportPanel = (props: ReportPanelProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const onFavIcoClick = () => {
+    props.report.tags.includes("favorite")
+      ? dispatch(
+          reportsActions.removeReportTag({
+            id: props.report.id,
+            tag: "favorite",
+          })
+        )
+      : dispatch(
+          reportsActions.addReportTag({ id: props.report.id, tag: "favorite" })
+        );
+  };
+
+  const reportError = useAppSelector((store) => store.reports.error);
+  useEffect(() => {
+    if (reportError)
+      openNotification({
+        message: reportError,
+        customClass: "Notification__error",
+        icon: null,
+      });
+    dispatch(reportsActions.clearError());
+  }, [reportError]);
+
   return (
     <>
-      <ReportPanelStyled
-        isOpen={isOpen}
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-      >
+      <ReportPanelStyled isOpen={isOpen}>
         <img
+          onClick={onFavIcoClick}
           src={props.report.tags.includes("favorite") ? favIco : noFavIco}
-          onClick={() => {
-            console.log("Have to change favorite state");
-          }}
         />
-        <ReportTitle isOpen={isOpen}>{props.report.name}</ReportTitle>
-        <ReportRightDiv>
+        <ReportTitle
+          isOpen={isOpen}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          {props.report.name}
+        </ReportTitle>
+        <ReportRightDiv
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
           {props.report.tags
             .filter((tag) => tag !== "favorite")
             .map((tag) => (

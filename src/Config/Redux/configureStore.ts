@@ -2,7 +2,8 @@ import { rootReducer } from "./rootReducer";
 import { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore, PreloadedState } from "@reduxjs/toolkit";
 import { localStorageName } from "../../Common/Constants/names";
-import { initialClients } from "../../Common/Constants/clients";
+
+import thunkMiddleware from "redux-thunk";
 
 type RootReducerType = typeof rootReducer;
 export type AppStateType = ReturnType<RootReducerType>;
@@ -15,13 +16,6 @@ export type BaseThunkType<
   A extends Action = Action,
   R = Promise<void>
 > = ThunkAction<R, AppStateType, unknown, A>;
-
-const getClients = async () => {
-  try {
-    const res = await fetch("localhost:3002");
-    return await res.json();
-  } catch (e) {}
-};
 
 const getInitialState = () => {
   try {
@@ -36,5 +30,11 @@ export const customConfigureStore = () => {
   return configureStore({
     reducer: rootReducer,
     preloadedState: getInitialState(),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: ["TYPE"],
+        },
+      }).prepend(thunkMiddleware),
   });
 };

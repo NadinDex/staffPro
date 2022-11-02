@@ -11,7 +11,7 @@ export interface UserState {
   currentUser?: UserDto;
   users: UserDto[];
   isLoggedIn: boolean;
-  isFetching: boolean;
+  isRegistered: boolean;
   error?: string;
   enterTries: {
     email: string;
@@ -22,7 +22,7 @@ export interface UserState {
 
 const initialState = {
   currentUser: undefined,
-  isFetching: false,
+  isRegistered: false,
   users: new Array<UserDto>(),
 } as UserState;
 
@@ -31,7 +31,14 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     registerUser: (state, action) => {
+      state.isRegistered = false;
       const user = action.payload as RegisterDto;
+
+      if (state.users.find((x) => x.email == user.email)) {
+        state.error = "Пользователь с таким email уже зарегистрирован";
+        return;
+      }
+
       let userDto = {
         id:
           state.users && state.users.length > 0
@@ -53,6 +60,7 @@ const userSlice = createSlice({
       } as UserDto;
 
       state.users.push(userDto);
+      state.isRegistered = true;
     },
     updateUser: (state, action) => {
       if (state.currentUser) {

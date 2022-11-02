@@ -30,14 +30,14 @@ export interface DiscusState {
   error?: string;
 }
 
-const initialClientsState = {
+const initialState = {
   isFetching: false,
   discussions: initialDiscussions,
 } as DiscusState;
 
 const discuccionsSlice = createSlice({
   name: "dicsus",
-  initialState: initialClientsState,
+  initialState: initialState,
   reducers: {
     addComment: (state, action) => {
       let comment = action.payload as DiscusCommentDto;

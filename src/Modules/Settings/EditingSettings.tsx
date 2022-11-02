@@ -223,7 +223,11 @@ export const EdittingSettings = () => {
                       options={monthOptions}
                       onChange={onChange}
                       onBlur={onBlur}
-                      value={monthOptions.find((x) => x.value === value)?.value}
+                      value={
+                        value
+                          ? monthOptions.find((o) => o.value === value)
+                          : null
+                      }
                       ref={ref}
                       name={name}
                       error={errors.bMonth?.message}
@@ -248,9 +252,9 @@ export const EdittingSettings = () => {
                       onChange={onChange}
                       onBlur={onBlur}
                       value={
-                        yearOptions
-                          ? yearOptions.find((x) => x.value === value)?.value
-                          : undefined
+                        value
+                          ? yearOptions.find((o) => o.value === value)
+                          : null
                       }
                       ref={ref}
                       name={name}

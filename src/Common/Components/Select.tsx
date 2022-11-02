@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { ControllerRenderProps } from "react-hook-form";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { selectCustomStyles } from "./selectCustomStyle";
 import { OptionTypeValueNumber } from "../Constants/selectOptions";
 import styled from "styled-components";
@@ -35,6 +35,9 @@ export const StyledSelect = styled(Select)<SelectComponentProps>`
         ? "0px 0px 4px rgba(245, 34, 45, 0.5)"
         : "none"};
   }
+  .Select__placeholder {
+    color: ${themeColors.gray6};
+  }
 `;
 
 export const SelectComponent = React.forwardRef(
@@ -49,6 +52,12 @@ export const SelectComponent = React.forwardRef(
       placeholder,
     } = props;
 
+    const getValueOblects = (value: number) => {
+      return value && options
+        ? options.find((o: OptionTypeValueNumber) => o.value === value)
+        : null;
+    };
+    console.log(value);
     return (
       <StyledSelect
         name=""
@@ -58,16 +67,10 @@ export const SelectComponent = React.forwardRef(
         className={error ? "error" : ""}
         options={options}
         menuPlacement="auto"
-        onChange={(newValue: any) => {
-          onChange((newValue as OptionTypeValueNumber).label);
-        }}
+        onChange={onChange}
         onBlur={onBlur}
         ref={ref}
-        value={
-          options
-            ? options.find((o: OptionTypeValueNumber) => o.value === value)
-            : undefined
-        }
+        value={value}
         inputValue=""
         onInputChange={() => {}}
         onMenuOpen={() => {}}
@@ -76,3 +79,7 @@ export const SelectComponent = React.forwardRef(
     );
   }
 );
+/*
+getOptionLabel={(option:OptionTypeValueNumber) => option.label}
+        getOptionValue={(option:OptionTypeValueNumber) => option.value}
+*/

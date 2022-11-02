@@ -16,17 +16,13 @@ export const selectCustomStyles = (width?: string) => {
       borderBottom: "1px solid " + themeColors.gray5,
       color: state.isSelected ? themeColors.blue6 : themeColors.gray8,
       backgroundColor: state.isSelected ? themeColors.blue1 : themeColors.gray1,
-      //height: "25px",
     }),
     control: (provided: any, state: any) => {
       return {
         ...provided,
-        //border: "1px solid " + themeColors.gray5,
         borderRadius: "2px",
         height: "38px",
         cursor: "pointer",
-        //boxShadow: "none",
-        //outline: "none",
         width: width,
       };
     },

@@ -1,5 +1,6 @@
 import { themeColors } from "../../themeColors";
-export interface AccountStatusType {
+import { OptionTypeValueNumber } from "./selectOptions";
+export interface AccountStatusType extends OptionTypeValueNumber {
   value: number;
   label: string;
   color: string;

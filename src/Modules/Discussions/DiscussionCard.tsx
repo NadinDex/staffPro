@@ -7,15 +7,13 @@ import { useAppSelector, store, useAppDispatch } from "../../Config/Redux/core";
 import { DiscussionAuthorInfo } from "./DiscussionAuthorInfo";
 import DiscusIcon from "../../Asserts/Icons/discussions.svg";
 import { Input } from "../../Common/Components/Input/Input";
-import { List, Skeleton } from "antd";
 import { discuccionsActions } from "./discusSlice";
 
 const DiscucCardContainer = styled.div`
   background: ${themeColors.gray1};
-  padding: 16px;
   display: flex;
   flex-direction: column;
-  //gap: 16px;
+  max-width: 879px;
 `;
 
 interface DiscucCardMainContainerProps {
@@ -25,11 +23,16 @@ const DiscucCardMainContainer = styled.div<DiscucCardMainContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 16px;
   padding: 20px;
   background: ${themeColors.gray2};
   border: 1px solid ${themeColors.gray3};
+  max-width: 879px;
 
   border-radius: 12px 12px ${(props) => (props.isActive ? "0 0" : "")};
+  p {
+    margin: 0;
+  }
 `;
 
 const DiscucCardMainTitle = styled.p`

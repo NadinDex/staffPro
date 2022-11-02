@@ -5,7 +5,7 @@ import { themeColors } from "../../themeColors";
 export const PageBGSeparator = styled.div`
   background: ${themeColors.BG};
   padding: 24px;
-  height: 100%;
+  min-height: 100%;
   @media (max-width: ${theme.mobile}) {
     padding: 0;
     height: fit-content;
@@ -40,5 +40,16 @@ export const TabContainer = styled.div`
   }
   .ant-tabs-nav::before {
     border-bottom: none;
+  }
+`;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+
+  padding: 24px;
+  @media (max-width: ${theme.mobile}) {
+    padding: 12px;
+    justify-content: center;
+    background: #fff;
   }
 `;

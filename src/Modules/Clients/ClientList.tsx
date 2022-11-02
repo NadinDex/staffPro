@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useAppSelector } from "../../Config/Redux/core";
+import { useAppSelector, useAppDispatch } from "../../Config/Redux/core";
 import { ClientCard } from "./ClientCard";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -12,10 +12,10 @@ import {
   PageContainer,
   PageBGSeparator,
 } from "../../Common/Components/pageStyles";
-import { theme } from "../../Common/Constants/theme";
 import useMatchMedia from "use-match-media-hook";
 import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
 import { HeaderTitleDiv, HeaderTitle } from "../Layout/Header";
+import { clientsActions } from "./clientsSlice";
 
 const ClientsMainContainer = styled.div`
   padding: 24px;
@@ -24,9 +24,20 @@ const ClientsMainContainer = styled.div`
   flex-direction: column;
 `;
 
+const clientAvatarServerUrl = "http://localhost:3002/image";
 export const ClientList = () => {
   const [mobile] = useMatchMedia(matchMedieQueries);
-  const clients = useAppSelector((store) => store.clients.clients);
+  const clients = useAppSelector((store) => store.clients.clients).map((c) => {
+    let client = Object.assign({}, c);
+    client.imageSrc = clientAvatarServerUrl + client.imageSrc;
+    return client;
+  });
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(clientsActions.getClientsFromServer());
+  }, []);
+
   const columns: ColumnsType<ClientDto> = [
     {
       title: "Клиент",

@@ -1,11 +1,17 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { themeColors } from "../../themeColors";
 import SVG from "react-inlinesvg";
 import { theme } from "../../Common/Constants/theme";
 import mobileMenu from "../../Asserts/Icons/mobileMenu.svg";
 import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
+import { ModalConfirm } from "../../Common/Components/ModalConfirm";
+import { useAppDispatch } from "../../Config/Redux/core";
+import { userActions } from "../../Config/Redux/userSlice";
+import useMatchMedia from "use-match-media-hook";
+import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
+import { Drawer } from "antd";
 
 const SideBarContainer = styled.div`
   flex: 0 0 200px;
@@ -25,9 +31,14 @@ const SideBarContainer = styled.div`
     background: ${themeColors.gray2};
     box-shadow: none;
   }
+  .my-special-modal {
+    .ant-modal-body {
+      height: calc(100vh - 110px);
+      padding: 24px 20px;
+    }
+  }
 `;
 const SideBarList = styled.div`
-  //height: fit-content;
   width: 100%;
 
   display: flex;
@@ -35,9 +46,9 @@ const SideBarList = styled.div`
   height: calc(100vh - 36px);
 
   @media (max-width: ${theme.mobile}) {
-    height: 0;
     width: 100%;
     overflow: hidden;
+    margin: -24px;
   }
 `;
 const NavContainer = styled.div``;
@@ -91,7 +102,7 @@ const MobileMenuButton = styled.img`
 `;
 
 export const SideBar = () => {
-  const [, setCurrentItem] = useState(sideBarMenu[0]);
+  const [currentItem, setCurrentItem] = useState(sideBarMenu[0]);
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const itemIsActive = (item: SideBarMenuItem) =>
@@ -99,35 +110,79 @@ export const SideBar = () => {
 
   const onItemClick = (item: SideBarMenuItem) => {
     setCurrentItem(item);
-    navigate(item.link);
+    if (item.isLogout) {
+      setIsLogoutConfirmOpen(true);
+    } else {
+      navigate(item.link);
+    }
   };
+
+  const [isLogoutConfirmOpen, setIsLogoutConfirmOpen] = useState<boolean>(
+    false
+  );
+  const dispatch = useAppDispatch();
+  const handleLogoutOk = () => {
+    setIsLogoutConfirmOpen(false);
+    dispatch(userActions.logoutUser());
+    navigate(currentItem.link);
+  };
+  const handleLogoutCancel = () => {
+    setIsLogoutConfirmOpen(false);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMobileSideBar = () => setIsOpen(!isOpen);
+  const [mobile] = useMatchMedia(matchMedieQueries);
+  const sideBarlist = (
+    <SideBarList>
+      {sideBarMenu.map((item) => (
+        <NavContainer
+          key={item.label}
+          className={itemIsActive(item) ? "active" : ""}
+          style={item.isLogout ? { marginTop: "auto" } : {}}
+        >
+          <NavBarLink
+            onClick={() => onItemClick(item)}
+            className={itemIsActive(item) ? "active" : ""}
+          >
+            <SVG
+              src={item.img}
+              fill={itemIsActive(item) ? themeColors.blue6 : themeColors.gray8}
+            />
+            <label>{item.label}</label>
+          </NavBarLink>
+        </NavContainer>
+      ))}
+    </SideBarList>
+  );
 
   return (
     <SideBarContainer>
       <LogoText>StaffPro</LogoText>
-      <MobileMenuButton src={mobileMenu} />
-      <SideBarList>
-        {sideBarMenu.map((item) => (
-          <NavContainer
-            key={item.label}
-            className={itemIsActive(item) ? "active" : ""}
-            style={item.isLogout ? { marginTop: "auto" } : {}}
+      {mobile ? (
+        <>
+          <MobileMenuButton src={mobileMenu} onClick={toggleMobileSideBar} />
+          <Drawer
+            placement="left"
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            headerStyle={{ display: "none" }}
+            width={200}
           >
-            <NavBarLink
-              onClick={() => onItemClick(item)}
-              className={itemIsActive(item) ? "active" : ""}
-            >
-              <SVG
-                src={item.img}
-                fill={
-                  itemIsActive(item) ? themeColors.blue6 : themeColors.gray8
-                }
-              />
-              <label>{item.label}</label>
-            </NavBarLink>
-          </NavContainer>
-        ))}
-      </SideBarList>
+            {sideBarlist}
+          </Drawer>
+        </>
+      ) : (
+        <>{sideBarlist}</>
+      )}
+
+      <ModalConfirm
+        open={isLogoutConfirmOpen}
+        onOk={handleLogoutOk}
+        onCancel={handleLogoutCancel}
+        title="Выход из аккаунт"
+        text="Вы действительно хотите выйти из аккаунта?"
+      />
     </SideBarContainer>
   );
 };

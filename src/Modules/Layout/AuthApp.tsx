@@ -24,6 +24,10 @@ const MainContainer = styled.div`
   @media (max-width: ${theme.mobile}) {
     margin-left: 0;
   }
+
+  .ant-tabs {
+    height: 100%;
+  }
 `;
 
 export const AuthApp: React.FunctionComponent = () => {

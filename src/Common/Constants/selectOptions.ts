@@ -31,51 +31,51 @@ export const getYearsList = (todayYear: number) => {
 export const monthOptions = [
   {
     label: "Январь",
-    value: 1,
+    value: 0,
   },
   {
     label: "Февраль",
-    value: 2,
+    value: 1,
   },
   {
     label: "Март",
-    value: 3,
+    value: 2,
   },
   {
     label: "Апрель",
-    value: 4,
+    value: 3,
   },
   {
     label: "Май",
-    value: 5,
+    value: 4,
   },
   {
     label: "Июнь",
-    value: 6,
+    value: 5,
   },
   {
     label: "Июль",
-    value: 7,
+    value: 6,
   },
   {
     label: "Август",
-    value: 8,
+    value: 7,
   },
   {
     label: "Сентябрь",
-    value: 9,
+    value: 8,
   },
   {
     label: "Октябрь",
-    value: 10,
+    value: 9,
   },
   {
     label: "Ноябрь",
-    value: 11,
+    value: 10,
   },
   {
     label: "Декабрь",
-    value: 12,
+    value: 11,
   },
 ];
 export const sexOptions = [

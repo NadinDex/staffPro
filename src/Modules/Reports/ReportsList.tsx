@@ -1,9 +1,10 @@
 import React from "react";
-import { reportCategories, reports } from "../../Common/Constants/reports";
+//import { reportCategories, reports } from "../../Common/Constants/reports";
 import { ReportPanel } from "./ReportPanel";
 import styled from "styled-components";
 import { theme } from "../../Common/Constants/theme";
 import { themeColors } from "../../themeColors";
+import { useAppSelector } from "../../Config/Redux/core";
 
 const RoportCategoryContainer = styled.div`
   width: 100%;
@@ -40,6 +41,8 @@ interface ReportsListProps {
 }
 
 export const ReportsList = (props: ReportsListProps) => {
+  const reportCategories = useAppSelector((store) => store.reports.categories);
+  const reports = useAppSelector((store) => store.reports.reports);
   return (
     <RoportLayoutDiv>
       <RoportColumnDiv>

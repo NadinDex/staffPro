@@ -91,7 +91,15 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     control,
     handleSubmit,
     reset,
-  } = useForm<AccountDto>();
+  } = useForm<AccountDto>({
+    defaultValues: {
+      id: undefined,
+      date: undefined,
+      deposit: undefined,
+      paid: undefined,
+      state: undefined,
+    },
+  });
 
   const dispatch = useAppDispatch();
   const submitClick = (data: AccountDto) => {
@@ -100,6 +108,9 @@ export const AccountEdit = (props: AccountEditPropsType) => {
   };
 
   useEffect(() => {
+    clearForm();
+  }, [props.show]);
+  const clearForm = () => {
     if (props.account) {
       reset({
         id: props.account?.id,
@@ -111,7 +122,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     } else {
       reset({});
     }
-  }, [props.account]);
+  };
 
   return (
     <AccountForm onSubmit={handleSubmit((e) => submitClick(e as AccountDto))}>
@@ -145,7 +156,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
               <DatePicker
                 onChange={(date) => onChange(date)}
                 placeholder="Дата"
-                value={moment(value)}
+                value={props.account ? moment(value) : undefined}
                 onBlur={onBlur}
               />
             )}
@@ -190,9 +201,11 @@ export const AccountEdit = (props: AccountEditPropsType) => {
               <SelectComponent
                 placeholder="Статус"
                 options={AccountStatus}
-                onChange={onChange}
+                onChange={(e) => onChange(e.label)}
                 onBlur={onBlur}
-                value={AccountStatus.find((x) => x.label === value)?.value}
+                value={
+                  value ? AccountStatus.find((o) => o.label === value) : null
+                }
                 ref={ref}
                 name={name}
                 error={errors.state?.message}
@@ -204,7 +217,10 @@ export const AccountEdit = (props: AccountEditPropsType) => {
         </FormGroupGap2>
       </AccountFormContainer>
       <AccountAddButtons
-        onClose={props.onClose}
+        onClose={() => {
+          clearForm();
+          props.onClose();
+        }}
         onSubmit={props.onSubmit}
         updateButton={props.account ? true : false}
       />

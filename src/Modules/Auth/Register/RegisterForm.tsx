@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import {
   FullScreanDiv,
   FormHeaderText,
@@ -21,11 +21,10 @@ import {
   sexOptions,
   getYearsList,
 } from "../../../Common/Constants/selectOptions";
-import Select from "react-select";
 import { Checkbox } from "../../../Common/Components/Checkbox";
 import { SelectComponent } from "../../../Common/Components/Select";
 import { ButtonStyled } from "../../../Common/Components/buttonStyled";
-import { useAppDispatch } from "../../../Config/Redux/core";
+import { useAppDispatch, useAppSelector } from "../../../Config/Redux/core";
 import { userActions } from "../../../Config/Redux/userSlice";
 import { ErrorInputLabel } from "../../../Common/Components/ErrorInputLabel";
 import { RegisterStyledForm } from "./registerStyles";
@@ -37,6 +36,7 @@ import {
   RowOfElements,
 } from "../../../Common/Components/formStyledElements";
 import { useNavigate } from "react-router-dom";
+import { openNotification } from "../../../App";
 
 export const RegisterForm = () => {
   const {
@@ -45,21 +45,41 @@ export const RegisterForm = () => {
     formState: { errors, isDirty },
     control,
     getValues,
+    setError,
   } = useForm<RegisterDto>();
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const submitClick = (data: RegisterDto) => {
-    console.log(data);
     //validation??
-    dispatch(userActions.registerUser(data));
-    navigate("/");
+    var presumedDate = new Date(data.bYear, data.bMonth, data.bDate);
+    if (presumedDate.getDate() != data.bDate) {
+      setError("bDate", {
+        type: "server",
+        message: "Такого числа нет в указанном месяце",
+      });
+    } else dispatch(userActions.registerUser(data));
   };
+  const isRegistered = useAppSelector((store) => store.user.isRegistered);
+  useEffect(() => {
+    if (isRegistered && isDirty) navigate("/");
+  }, [isRegistered]);
 
   const todayYear = new Date().getFullYear();
   const yearOptions = useMemo(() => {
     return getYearsList(todayYear);
   }, [todayYear]);
+
+  const dispatchError = useAppSelector((store) => store.user.error);
+  useEffect(() => {
+    if (dispatchError)
+      openNotification({
+        message: dispatchError,
+        customClass: "Notification__error",
+        icon: null,
+      });
+    dispatch(userActions.clearError());
+  }, [dispatchError]);
 
   return (
     <FullScreanDiv gap="16px">
@@ -170,9 +190,11 @@ export const RegisterForm = () => {
                   <SelectComponent
                     placeholder="Месяц"
                     options={monthOptions}
-                    onChange={onChange}
+                    onChange={(e) => onChange(e.value)}
                     onBlur={onBlur}
-                    value={value}
+                    value={
+                      value ? monthOptions.find((o) => o.value === value) : null
+                    }
                     ref={ref}
                     name={name}
                     width="225px"
@@ -193,9 +215,11 @@ export const RegisterForm = () => {
                   <SelectComponent
                     placeholder="Год"
                     options={yearOptions}
-                    onChange={onChange}
+                    onChange={(e) => onChange(e.value)}
                     onBlur={onBlur}
-                    value={value}
+                    value={
+                      value ? yearOptions.find((o) => o.value === value) : null
+                    }
                     ref={ref}
                     name={name}
                     width="153px"
