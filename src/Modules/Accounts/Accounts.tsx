@@ -15,6 +15,8 @@ import useMatchMedia from "use-match-media-hook";
 import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
 import { theme } from "../../Common/Constants/theme";
 import { HeaderTitle, HeaderTitleDiv } from "../Layout/Header";
+import { AccountDto } from "../../Dto/accountDto";
+import { AccountsState } from "./accountSlice";
 
 const AccountAddButton = styled(ButtonStyled32)`
   font-weight: 400;
@@ -28,27 +30,22 @@ const AccountAddButton = styled(ButtonStyled32)`
   }
 `;
 
+const dateSortingFunc = (x: AccountDto, y: AccountDto) =>
+  Date.parse(JSON.stringify(x.date)) - Date.parse(JSON.stringify(x.date));
 export const Accounts = () => {
   const tabItems = [
     {
       label: `Все счета`,
       key: 1,
-      children: (
-        <AccountsList
-          filter={(store: AppStateType) => store.accounts.accounts}
-        />
-      ),
+      children: <AccountsList filter={(all: AccountDto[]) => all} />,
     },
     {
       label: `Ожидание оплаты`,
       key: 2,
       children: (
         <AccountsList
-          filter={(store: AppStateType) =>
-            store.accounts.accounts.filter(
-              (acc) =>
-                acc.state === AccountStatus.find((x) => x.value === 1)?.label
-            )
+          filter={(all: AccountDto[]) =>
+            all.filter((acc) => acc.state === AccountStatus[1].label)
           }
         />
       ),
@@ -58,11 +55,8 @@ export const Accounts = () => {
       key: 3,
       children: (
         <AccountsList
-          filter={(store: AppStateType) =>
-            store.accounts.accounts.filter(
-              (acc) =>
-                acc.state === AccountStatus.find((x) => x.value === 0)?.label
-            )
+          filter={(all: AccountDto[]) =>
+            all.filter((acc) => acc.state === AccountStatus[0].label)
           }
         />
       ),
@@ -72,11 +66,8 @@ export const Accounts = () => {
       key: 4,
       children: (
         <AccountsList
-          filter={(store: AppStateType) =>
-            store.accounts.accounts.filter(
-              (acc) =>
-                acc.state === AccountStatus.find((x) => x.value === 2)?.label
-            )
+          filter={(all: AccountDto[]) =>
+            all.filter((acc) => acc.state === AccountStatus[2].label)
           }
         />
       ),
@@ -86,11 +77,8 @@ export const Accounts = () => {
       key: 5,
       children: (
         <AccountsList
-          filter={(store: AppStateType) =>
-            store.accounts.accounts.filter(
-              (acc) =>
-                acc.state === AccountStatus.find((x) => x.value === 3)?.label
-            )
+          filter={(all: AccountDto[]) =>
+            all.filter((acc) => acc.state === AccountStatus[3].label)
           }
         />
       ),
@@ -126,10 +114,9 @@ export const Accounts = () => {
           style={{ height: "100%" }}
           tabBarExtraContent={!mobile && operations}
           items={tabItems.map((x, i) => {
-            const id = String(i);
             return {
               label: x.label,
-              key: id,
+              key: String(x.key),
               children: (
                 <PageBGSeparator>
                   <PageContainer>{x.children}</PageContainer>
@@ -146,7 +133,6 @@ export const Accounts = () => {
         open={isEditFormOpen}
       >
         <AccountEdit
-          show={isEditFormOpen}
           onSubmit={handleEditOk}
           onClose={handleEditCancel}
           account={undefined}

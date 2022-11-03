@@ -62,6 +62,10 @@ export const StyledInputContainer = styled.div<InputProps>`
     border: none;
     background: ${themeColors.gray1};
   }
+  input:disabled {
+    color: ${themeColors.gray6};
+    background: ${themeColors.gray2};
+  }
   input::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: ${themeColors.gray6};

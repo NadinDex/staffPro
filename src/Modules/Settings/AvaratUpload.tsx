@@ -93,13 +93,13 @@ export const AvatarUpload = (props: AvatarUploadPropsType) => {
         accept="image/*"
       />
 
-      {props.url || imageFile ? (
-        <img src={imageFile ? imageFile : props.url} width="64" height="64" />
-      ) : (
-        <GrayCircleDiv>
+      <GrayCircleDiv>
+        {props.url || imageFile ? (
+          <img src={imageFile ? imageFile : props.url} width="64" height="64" />
+        ) : (
           <img src={noPerson} />
-        </GrayCircleDiv>
-      )}
+        )}
+      </GrayCircleDiv>
 
       <ButtonStyled32 onClick={onButtonClick}>
         Изменить изображение

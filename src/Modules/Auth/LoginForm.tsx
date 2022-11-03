@@ -17,7 +17,7 @@ import {
 import { Password } from "../../Common/Components/Input/Password";
 
 import { message } from "antd";
-import { openNotification } from "../../App";
+import { openAppNotification } from "../../App";
 
 const LoginStyledForm = styled.form`
   display: flex;
@@ -75,7 +75,7 @@ export const LoginForm = () => {
   const dispatchError = useAppSelector((store) => store.user.error);
   useEffect(() => {
     if (dispatchError)
-      openNotification({
+      openAppNotification({
         message: dispatchError,
         customClass: "Notification__error",
         icon: null,

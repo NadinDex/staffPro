@@ -14,7 +14,7 @@ import { Password } from "../../Common/Components/Input/Password";
 import { passwordLength } from "../../Common/Constants/regex";
 import { ErrorInputLabel } from "../../Common/Components/ErrorInputLabel";
 import { userActions } from "../../Config/Redux/userSlice";
-import { openNotification } from "../../App";
+import { openAppNotification } from "../../App";
 import { useForm } from "react-hook-form";
 import { FormElement } from "../../Common/Components/formStyledElements";
 
@@ -31,7 +31,7 @@ export const ForgotPassword = () => {
   const dispatch = useAppDispatch();
   const onSubmit = (data: ChangePasswordDto) => {
     if (!data.email) {
-      openNotification({
+      openAppNotification({
         message: "Неправильная ссылка: не указан email",
         customClass: "Notification__error",
         icon: null,

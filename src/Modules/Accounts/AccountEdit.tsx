@@ -14,8 +14,8 @@ import { DatePicker } from "antd";
 import { SelectComponent } from "../../Common/Components/Select";
 import { AccountStatus } from "../../Common/Constants/accountStatus";
 import { AccountAddButtons } from "./AccountAddButtons";
-import { useAppDispatch } from "../../Config/Redux/core";
-import { accountActions } from "./accountSlice";
+import { useAppDispatch, useAppSelector } from "../../Config/Redux/core";
+import { accountActions, selectAllAccounts } from "./accountSlice";
 import { theme } from "../../Common/Constants/theme";
 import moment from "moment";
 
@@ -80,7 +80,7 @@ export const ModalContent = styled.div`
 
 interface AccountEditPropsType extends HTMLAttributes<HTMLHeadingElement> {
   account?: AccountDto;
-  show: boolean;
+  //show: boolean;
   onClose: () => void;
   onSubmit: () => void;
 }
@@ -103,13 +103,18 @@ export const AccountEdit = (props: AccountEditPropsType) => {
 
   const dispatch = useAppDispatch();
   const submitClick = (data: AccountDto) => {
-    dispatch(accountActions.addAccount(data));
+    if (props.account) {
+      dispatch(accountActions.updateAccount({ id: data.id, changes: data }));
+    } else {
+      dispatch(accountActions.addAccount(data));
+    }
+
     props.onSubmit();
   };
 
   useEffect(() => {
     clearForm();
-  }, [props.show]);
+  }, [props.account]);
   const clearForm = () => {
     if (props.account) {
       reset({
@@ -121,6 +126,13 @@ export const AccountEdit = (props: AccountEditPropsType) => {
       });
     } else {
       reset({});
+    }
+  };
+
+  const allAccounts = useAppSelector(selectAllAccounts);
+  const validation = (formData: AccountDto) => {
+    if (parseInt(formData.id) > 0) {
+    } else {
     }
   };
 
@@ -136,6 +148,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
         <FormGroupGap2>
           <FormLabelStyled>Номер</FormLabelStyled>
           <Input
+            disabled={props.account ? true : false}
             placeholder="Номер"
             {...register("id", {
               required: "Обязательное поле",
@@ -154,7 +167,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <DatePicker
-                onChange={(date) => onChange(date)}
+                onChange={(date) => onChange(date?.toDate())}
                 placeholder="Дата"
                 value={props.account ? moment(value) : undefined}
                 onBlur={onBlur}
@@ -169,6 +182,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
             placeholder="Взнос"
             {...register("deposit", {
               required: "Обязательное поле",
+              min: { value: 0, message: "Не может быть отрицательным" },
             })}
             error={errors.deposit?.message}
           />
@@ -182,7 +196,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
               required: "Обязательное поле",
               min: {
                 value: 0,
-                message: "Не может быть отрицательным числом",
+                message: "Не может быть отрицательным",
               },
             })}
             error={errors.paid?.message}

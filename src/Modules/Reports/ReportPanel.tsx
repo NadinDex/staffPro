@@ -9,7 +9,7 @@ import { Tag } from "antd";
 import SVG from "react-inlinesvg";
 import { useAppDispatch, useAppSelector } from "../../Config/Redux/core";
 import { reportsActions } from "./reportSlice";
-import { openNotification } from "../../App";
+import { openAppNotification } from "../../App";
 
 interface ReportPanelStyledProps {
   isOpen?: boolean;
@@ -101,7 +101,7 @@ export const ReportPanel = (props: ReportPanelProps) => {
   const reportError = useAppSelector((store) => store.reports.error);
   useEffect(() => {
     if (reportError)
-      openNotification({
+      openAppNotification({
         message: reportError,
         customClass: "Notification__error",
         icon: null,
@@ -139,7 +139,11 @@ export const ReportPanel = (props: ReportPanelProps) => {
           <SVG
             src={panelArrow}
             fill={isOpen ? themeColors.blue6 : themeColors.gray8}
-            rotate={isOpen ? 180 : 0}
+            style={
+              isOpen
+                ? { transform: "rotate(-180deg)", transition: "transform .24s" }
+                : { transition: "transform .24s" }
+            }
           />
         </ReportRightDiv>
       </ReportPanelStyled>

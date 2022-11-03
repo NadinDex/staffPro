@@ -8,7 +8,8 @@ import reportReducer from "../../Modules/Reports/reportSlice";
 export const rootReducer = combineReducers({
   user: userReducer,
   clients: clientsReducer,
-  accounts: accountReducer,
+  //accounts: accountReducer,
+  invoices: accountReducer,
   discussions: discussionReducer,
   reports: reportReducer,
 });

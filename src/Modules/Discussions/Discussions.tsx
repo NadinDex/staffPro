@@ -26,6 +26,10 @@ export const Discussions = () => {
     discussionsAll.slice(0, pageSize)
   );
 
+  useEffect(() => {
+    setDiscussions(discussionsAll.slice(0, pageSize));
+  }, [discussionsAll]);
+
   const onChange: PaginationProps["onChange"] = (page: number) => {
     setCurrentPage(page);
     setDiscussions(

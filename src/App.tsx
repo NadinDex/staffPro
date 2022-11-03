@@ -23,29 +23,45 @@ import { ForgotPassword } from "./Modules/Auth/ForgotPassword";
 import { ForgotPasswordEmailConfirmed } from "./Modules/Auth/ForgotPasswordEmailConfirmed";
 
 interface NotificationProps {
-  icon: any;
+  icon?: any;
   message: string;
-  customClass: string;
+  customClass?: string;
+  type?: "error" | "info";
 }
-export const openNotification = (props: NotificationProps) => {
+export const openAppNotification = (props: NotificationProps) => {
+  const notificationStyle = {
+    padding: "9px 16px",
+    width: "500px",
+    minHeight: "40px",
+    background: themeColors.red1,
+    border: "1px solid " + themeColors.red3,
+    borderRadius: "2px",
+
+    fontWeight: 400,
+    fontSize: "14px",
+    lineHeight: "22px",
+    color: themeColors.gray8,
+  };
+  const infoStyle = {
+    padding: "9px 16px",
+    width: "500px",
+    minHeight: "40px",
+    background: themeColors.green1,
+    border: "1px solid " + themeColors.green3,
+    borderRadius: "2px",
+
+    fontWeight: 400,
+    fontSize: "14px",
+    lineHeight: "22px",
+    color: themeColors.green6,
+  };
+  const currentStyle = props.type === "info" ? infoStyle : notificationStyle;
   notification.open({
     icon: props.icon,
     message: props.message,
     className: props.customClass,
     duration: 0,
-    style: {
-      padding: "9px 16px",
-      width: "500px",
-      minHeight: "40px",
-      background: themeColors.red1,
-      border: "1px solid " + themeColors.red3,
-      borderRadius: "2px",
-
-      fontWeight: 400,
-      fontSize: "14px",
-      lineHeight: "22px",
-      color: themeColors.gray8,
-    },
+    style: currentStyle,
   });
 };
 

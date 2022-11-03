@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   FullScreanDiv,
   FormHeaderText,
@@ -14,13 +14,7 @@ import {
   phoneReg,
 } from "../../../Common/Constants/regex";
 import { Password } from "../../../Common/Components/Input/Password";
-import { selectCustomStyles } from "../../../Common/Components/selectCustomStyle";
-import {
-  monthOptions,
-  OptionTypeValueNumber,
-  sexOptions,
-  getYearsList,
-} from "../../../Common/Constants/selectOptions";
+import { sexOptions } from "../../../Common/Constants/selectOptions";
 import { Checkbox } from "../../../Common/Components/Checkbox";
 import { SelectComponent } from "../../../Common/Components/Select";
 import { ButtonStyled } from "../../../Common/Components/buttonStyled";
@@ -30,13 +24,13 @@ import { ErrorInputLabel } from "../../../Common/Components/ErrorInputLabel";
 import { RegisterStyledForm } from "./registerStyles";
 import {
   FormElement,
-  FormLabelStyled,
   FormGroupGap8,
   RowOfTwo,
   RowOfElements,
 } from "../../../Common/Components/formStyledElements";
 import { useNavigate } from "react-router-dom";
-import { openNotification } from "../../../App";
+import { openAppNotification } from "../../../App";
+import { BirthdayFormElements } from "../../../Common/Components/BirthdayFormElements";
 
 export const RegisterForm = () => {
   const {
@@ -60,20 +54,16 @@ export const RegisterForm = () => {
       });
     } else dispatch(userActions.registerUser(data));
   };
-  const isRegistered = useAppSelector((store) => store.user.isRegistered);
+  const isRegistered = useAppSelector((store) => store.user.operationSucceded);
   useEffect(() => {
     if (isRegistered && isDirty) navigate("/");
+    dispatch(userActions.clearOperationState());
   }, [isRegistered]);
-
-  const todayYear = new Date().getFullYear();
-  const yearOptions = useMemo(() => {
-    return getYearsList(todayYear);
-  }, [todayYear]);
 
   const dispatchError = useAppSelector((store) => store.user.error);
   useEffect(() => {
     if (dispatchError)
-      openNotification({
+      openAppNotification({
         message: dispatchError,
         customClass: "Notification__error",
         icon: null,
@@ -164,72 +154,7 @@ export const RegisterForm = () => {
           <ErrorInputLabel text={errors.passwordRepeat?.message} />
         </FormElement>
         <FormGroupGap8>
-          <FormLabelStyled>Дата рождения</FormLabelStyled>
-          <RowOfElements>
-            <FormElement>
-              <Input
-                type="number"
-                placeholder="День"
-                {...register("bDate", {
-                  required: "Обязательное поле",
-                  min: { value: 1, message: "Минимум 1" },
-                  max: { value: 31, message: "Максисмум 31" },
-                })}
-                error={errors.bDate?.message}
-              />
-              <ErrorInputLabel text={errors.bDate?.message} />
-            </FormElement>
-            <FormElement>
-              <Controller
-                control={control}
-                name="bMonth"
-                rules={{
-                  required: "Обязательное поле",
-                }}
-                render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                  <SelectComponent
-                    placeholder="Месяц"
-                    options={monthOptions}
-                    onChange={(e) => onChange(e.value)}
-                    onBlur={onBlur}
-                    value={
-                      value ? monthOptions.find((o) => o.value === value) : null
-                    }
-                    ref={ref}
-                    name={name}
-                    width="225px"
-                    error={errors.bMonth?.message}
-                  />
-                )}
-              />
-              <ErrorInputLabel text={errors.bMonth?.message} />
-            </FormElement>
-            <FormElement>
-              <Controller
-                control={control}
-                name="bYear"
-                rules={{
-                  required: "Обязательное поле",
-                }}
-                render={({ field: { onChange, onBlur, value, name, ref } }) => (
-                  <SelectComponent
-                    placeholder="Год"
-                    options={yearOptions}
-                    onChange={(e) => onChange(e.value)}
-                    onBlur={onBlur}
-                    value={
-                      value ? yearOptions.find((o) => o.value === value) : null
-                    }
-                    ref={ref}
-                    name={name}
-                    width="153px"
-                    error={errors.bYear?.message}
-                  />
-                )}
-              />
-              <ErrorInputLabel text={errors.bYear?.message} />
-            </FormElement>
-          </RowOfElements>
+          <BirthdayFormElements formHooks={{ register, control, errors }} />
         </FormGroupGap8>
 
         <RowOfElements>

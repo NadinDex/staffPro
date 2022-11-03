@@ -10,6 +10,9 @@ export const themeColors = {
   gray9: "#262626",
   gray10: "#000000",
 
+  dark1: "#202020",
+  dark2: "#5A5A5A",
+
   blue1: "#E6F7FF",
   blue2: "#BAE7FF",
   blue3: "#91D5FF",

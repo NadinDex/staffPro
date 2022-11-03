@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { TableView, CardView } from "../../Common/Components/viewsStyled";
-import { Table, Space, Modal, Drawer, Pagination, PaginationProps } from "antd";
-import { useAppSelector, useAppDispatch } from "../../Config/Redux/core";
+import { Table, Space, Drawer, Pagination, PaginationProps } from "antd";
+import { useAppDispatch, useAppSelector } from "../../Config/Redux/core";
 import { AccountCard } from "./AccountCard";
-import { accountActions } from "./accountSlice";
+import {
+  accountActions,
+  selectAllAccounts,
+  accountSelectorWithFilter,
+} from "./accountSlice";
 import { AccountDto } from "../../Dto/accountDto";
-import { AppStateType } from "../../Config/Redux/configureStore";
 import { AccountStatusDiv } from "./AccountStatusDiv";
 import { ColumnsType } from "antd/lib/table";
 import styled from "styled-components";
 import { AccountEdit } from "./AccountEdit";
-import { themeColors } from "../../themeColors";
-import { AccountAddButtons } from "./AccountAddButtons";
-import { theme } from "../../Common/Constants/theme";
 import useMatchMedia from "use-match-media-hook";
 import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
-import {
-  CancelButtonStyled32,
-  ButtonStyled32,
-} from "../../Common/Components/buttonStyled";
+
 import { PaginationContainer } from "../../Common/Components/pageStyles";
 import { ModalConfirm } from "../../Common/Components/ModalConfirm";
 
@@ -54,11 +51,15 @@ const accountColumns = (
       dataIndex: "deposit",
       key: "deposit",
       width: "10.5%",
+      className: "column-money",
+      align: "right",
     },
     {
       title: "Оплачено",
       dataIndex: "paid",
       key: "paid",
+      className: "column-money",
+      align: "right",
     },
     {
       title: "Статус",
@@ -122,37 +123,42 @@ const AccountContainer = styled.div`
 `;
 
 interface AccountsListProps {
-  filter: (store: AppStateType) => AccountDto[];
+  filter: (accounts: AccountDto[]) => AccountDto[];
 }
 
 export const AccountsList = (props: AccountsListProps) => {
   const [mobile] = useMatchMedia(matchMedieQueries);
-
   const dispatch = useAppDispatch();
-  const accounts = useAppSelector(props.filter).sort(
-    (x, y) =>
-      Date.parse(JSON.stringify(x.date)) - Date.parse(JSON.stringify(x.date))
-  );
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
-  const [deleteId, setDeleteId] = useState<string>();
+  //const accounts = useAppSelector(selectAllAccounts);
+  const accounts = useAppSelector(accountSelectorWithFilter(props.filter));
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = mobile ? 4 : 10;
+  const [accountsForPage, setAccountsForPage] = useState<AccountDto[]>();
+  useEffect(() => {
+    setAccountsForPage(accounts.slice(0, pageSize));
+  }, []);
+
+  //--------------------
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number>();
   const handleDeleteOk = () => {
     setIsDeleteConfirmOpen(false);
-    dispatch(accountActions.deleteAccount(deleteId));
+    if (deleteId) dispatch(accountActions.deleteAccount(deleteId));
   };
   const handleDeleteCancel = () => {
     setIsDeleteConfirmOpen(false);
   };
-  const deleteAccount = (id: string) => {
+  const deleteAccount = (id: number) => {
     setDeleteId(id);
     setIsDeleteConfirmOpen(true);
   };
-
+  //--------------------
   const [isEditFormOpen, setIsEditModalOpen] = useState(false);
   const [accountForEdit, setAccountForEdit] = useState<AccountDto>();
   const editAccount = (id: string) => {
     setIsEditModalOpen(true);
-    setAccountForEdit(accounts.find((x) => x.id === id));
+    setAccountForEdit(accountsForPage?.find((x) => x.id === id));
   };
   const handleEditOk = () => {
     setIsEditModalOpen(false);
@@ -161,15 +167,11 @@ export const AccountsList = (props: AccountsListProps) => {
     setIsEditModalOpen(false);
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = mobile ? 4 : 10;
-  const [accountsForPage, setAccountsForPage] = useState<AccountDto[]>(
-    accounts.slice(0, pageSize)
-  );
-
-  const onChange: PaginationProps["onChange"] = (page: number) => {
+  const onPageChange: PaginationProps["onChange"] = (page: number) => {
     setCurrentPage(page);
-    setAccountsForPage(accounts.slice((page - 1) * pageSize, page * pageSize));
+    setAccountsForPage(
+      accounts ? accounts.slice((page - 1) * pageSize, page * pageSize) : []
+    );
   };
 
   return (
@@ -186,7 +188,7 @@ export const AccountsList = (props: AccountsListProps) => {
       ) : (
         <>
           <CardView>
-            {accountsForPage.map((account) => (
+            {accountsForPage?.map((account) => (
               <AccountCard
                 account={account}
                 key={account.id}
@@ -202,7 +204,7 @@ export const AccountsList = (props: AccountsListProps) => {
                 pageSize={mobile ? 4 : 10}
                 total={accounts.length}
                 current={currentPage}
-                onChange={onChange}
+                onChange={onPageChange}
               />
             </PaginationContainer>
           )}
@@ -217,7 +219,6 @@ export const AccountsList = (props: AccountsListProps) => {
       >
         <AccountEdit
           account={accountForEdit}
-          show={isEditFormOpen}
           onSubmit={handleEditOk}
           onClose={handleEditCancel}
         />
@@ -233,64 +234,3 @@ export const AccountsList = (props: AccountsListProps) => {
     </AccountContainer>
   );
 };
-
-/*
-<Modal
-        title=""
-        open={isDeleteConfirmOpen}
-        onOk={handleDeleteOk}
-        onCancel={handleDeleteCancel}
-        width={330}
-        okText="Подтвердить"
-        cancelText="Отмена"
-        keyboard={true}
-        wrap-class-name="my-special-modal"
-        closable={false}
-        footer={null}
-        centered={true}
-      >
-        <DeleteModalContainer>
-          <DeleteModalTitle>Удаление счета</DeleteModalTitle>
-          <DeleteModalText>
-            Вы действительно хотите удалить счет?
-          </DeleteModalText>
-          <ModalButtonsDiv>
-            <CancelButtonStyled32 key="back" onClick={handleDeleteCancel}>
-              Отмена
-            </CancelButtonStyled32>
-            <ButtonStyled32 key="submit" onClick={handleDeleteOk}>
-              Подтвердить
-            </ButtonStyled32>
-          </ModalButtonsDiv>
-        </DeleteModalContainer>
-      </Modal>
-*/
-
-const ModalButtonsDiv = styled.div`
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-`;
-
-const DeleteModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  p {
-    margin: 0;
-  }
-`;
-const DeleteModalTitle = styled.p`
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
-  text-align: center;
-  color: ${themeColors.gray9};
-`;
-const DeleteModalText = styled.p`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  text-align: center;
-  color: ${themeColors.gray8};
-`;

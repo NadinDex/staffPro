@@ -16,6 +16,7 @@ import useMatchMedia from "use-match-media-hook";
 import { matchMedieQueries } from "../../Common/Constants/matchMediaqueries";
 import { HeaderTitleDiv, HeaderTitle } from "../Layout/Header";
 import { clientsActions } from "./clientsSlice";
+import { clientAvatarServerUrl } from "../../Common/Constants/names";
 
 const ClientsMainContainer = styled.div`
   padding: 24px;
@@ -24,7 +25,6 @@ const ClientsMainContainer = styled.div`
   flex-direction: column;
 `;
 
-const clientAvatarServerUrl = "http://localhost:3002/image";
 export const ClientList = () => {
   const [mobile] = useMatchMedia(matchMedieQueries);
   const clients = useAppSelector((store) => store.clients.clients).map((c) => {

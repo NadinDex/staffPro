@@ -2,25 +2,42 @@ import { useAppSelector } from "../../Config/Redux/core";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ClientDto } from "../../Dto/clientDto";
+import { clientAvatarServerUrl } from "../../Common/Constants/names";
+import SVG from "react-inlinesvg";
+import noPerson from "../../Asserts/Icons/noPerson.svg";
+import { themeColors } from "../../themeColors";
 
 const DiscussionAuthorInfoContainer = styled.div`
   display: flex;
   gap: 12px;
+  span {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    color: ${themeColors.gray9};
+  }
 `;
 
 interface DiscussionAuthorInfoProps {
   id: number;
 }
 export const DiscussionAuthorInfo = (props: DiscussionAuthorInfoProps) => {
-  const [client, setClient] = useState<ClientDto>();
-  const clients = useAppSelector((store) => store.clients.clients);
-  useEffect(() => {
-    setClient(clients.find((x) => x.id == props.id));
-  }, [props.id]);
+  const client = useAppSelector((store) =>
+    store.clients.clients.find((x) => x.id == props.id)
+  );
 
   return (
     <DiscussionAuthorInfoContainer>
-      <img src={client?.imageSrc} /> <span>{client?.fullName}</span>
+      {client?.imageSrc ? (
+        <img
+          src={clientAvatarServerUrl + client?.imageSrc}
+          width="24"
+          height="24"
+        />
+      ) : (
+        <SVG src={noPerson} fill={themeColors.gray8} />
+      )}
+      <span>{client?.fullName ?? client?.company}</span>
     </DiscussionAuthorInfoContainer>
   );
 };

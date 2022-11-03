@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import { themeColors } from "../../themeColors";
-import SlashSvg from "../../Asserts/Icons/slash.svg";
-import SVG, { Props as SVGProps } from "react-inlinesvg";
 import { sideBarMenu, SideBarMenuItem } from "../../Common/Constants/menu";
 import { theme } from "../../Common/Constants/theme";
 import { Breadcrumb } from "antd";
@@ -28,6 +26,7 @@ export const HeaderTitleDiv = styled.div`
   color: ${themeColors.gray7};
   @media (max-width: ${theme.mobile}) {
     padding: 6px 16px;
+    flex-direction: column;
   }
 `;
 export const HeaderTitle = styled.p`

@@ -1,46 +1,46 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createEntityAdapter,
+  createSelector,
+  EntityState,
+} from "@reduxjs/toolkit";
 import { AccountDto } from "../../Dto/accountDto";
+import { AppStateType } from "../../Config/Redux/configureStore";
 
 export interface AccountsState {
   accounts: AccountDto[];
+  operationSucceded?: boolean;
 }
 
 const initialState = {
   accounts: new Array<AccountDto>(),
 } as AccountsState;
 
-const accountSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    addAccount: (state, action) => {
-      const account = action.payload as AccountDto;
-      if (!state.accounts.find((x) => x.id == account.id))
-        state.accounts.push(account);
-      //else update account
-    },
-    updateAccount: (state, action) => {
-      const newValue = action.payload as AccountDto;
-      let accountForUpdate = state.accounts.find((x) => x.id == newValue.id);
-      if (accountForUpdate) {
-        accountForUpdate.deposit = newValue.deposit;
-        accountForUpdate.date = newValue.date;
-        accountForUpdate.paid = newValue.paid;
-        accountForUpdate.state = newValue.state;
-      } else {
-        state.accounts.push(newValue);
-      }
-    },
-    deleteAccount: (state, action) => {
-      const id = action.payload as string;
-      const account = state.accounts.find((x) => x.id == id);
-      if (account) {
-        const accountIndex = state.accounts.indexOf(account);
-        state.accounts.splice(accountIndex, 1);
-      }
-    },
-  },
+const dateSortingFunc = (x: AccountDto, y: AccountDto) =>
+  Date.parse(JSON.stringify(x.date)) - Date.parse(JSON.stringify(x.date));
+const accountAdapter = createEntityAdapter<AccountDto>({
+  selectId: (account) => account.id,
+  // Keep the "all IDs" array sorted based on book titles
+  sortComparer: dateSortingFunc,
 });
 
+const accountSlice = createSlice({
+  name: "invoices",
+  initialState: accountAdapter.getInitialState(),
+  reducers: {
+    addAccount: accountAdapter.addOne,
+    updateAccount: accountAdapter.updateOne,
+    deleteAccount: accountAdapter.removeOne,
+  },
+});
+/*export const accountSelectors = (filter: Function, store: AppStateType) =>
+  accountAdapter.getSelectors(filter()).selectAll(store.accounts);*/
+
+export const { selectAll: selectAllAccounts } = accountAdapter.getSelectors(
+  (store: AppStateType) => store.invoices
+);
+export const accountSelectorWithFilter = (
+  filter: (accounts: AccountDto[]) => AccountDto[]
+) => createSelector(selectAllAccounts, filter);
 export const accountActions = { ...accountSlice.actions };
 export default accountSlice.reducer;

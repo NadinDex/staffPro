@@ -5,7 +5,7 @@ import { themeColors } from "../../themeColors";
 export const PageBGSeparator = styled.div`
   background: ${themeColors.BG};
   padding: 24px;
-  min-height: 100%;
+  //min-height: 100%;
   @media (max-width: ${theme.mobile}) {
     padding: 0;
     height: fit-content;
@@ -17,9 +17,11 @@ export const PageContainer = styled.div`
 `;
 export const TabContainer = styled.div`
   height: 100%;
+  background: ${themeColors.BG};
   .ant-tabs-nav {
     margin: 0;
-    margin-left: 23px;
+    padding-left: 23px;
+    background-color: ${themeColors.gray1};
 
     @media (max-width: ${theme.mobile}) {
       margin-left: 16px;

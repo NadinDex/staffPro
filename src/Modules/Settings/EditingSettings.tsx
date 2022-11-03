@@ -1,7 +1,7 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { UserDto } from "../../Dto/userDto";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../Config/Redux/core";
 import { userActions } from "../../Config/Redux/userSlice";
 import { ErrorInputLabel } from "../../Common/Components/ErrorInputLabel";
@@ -11,21 +11,16 @@ import {
   FormLabelStyled,
   FormGroupGap2,
   FormGroupSeparator,
-  RowOfElements,
 } from "../../Common/Components/formStyledElements";
 import { Input } from "../../Common/Components/Input/Input";
 import { emailReg, phoneReg } from "../../Common/Constants/regex";
 import { themeColors } from "../../themeColors";
 import { theme } from "../../Common/Constants/theme";
-import { SelectComponent } from "../../Common/Components/Select";
-import {
-  monthOptions,
-  getYearsList,
-} from "../../Common/Constants/selectOptions";
 import { SettingsButton } from "./SettingsButton";
 import { AvatarUpload } from "./AvaratUpload";
 import { SettingNewPassword } from "./SettingNewPassword";
-import { openNotification } from "../../App";
+import { openAppNotification } from "../../App";
+import { BirthdayFormElements } from "../../Common/Components/BirthdayFormElements";
 
 const SettingEdittingForm = styled.form`
   width: 100%;
@@ -73,14 +68,18 @@ export const EdittingSettings = () => {
 
   const dispatch = useAppDispatch();
   const submitClick = (data: UserDto) => {
-    console.log(data);
     dispatch(userActions.updateUser(data));
+    openAppNotification({
+      message: "Данные оуспешно изменены",
+      customClass: "Notification__info",
+      type: "info",
+    });
   };
 
   const error = useAppSelector((store) => store.user.error);
   useEffect(() => {
     if (error)
-      openNotification({
+      openAppNotification({
         message: error,
         customClass: "Notification__error",
         icon: null,
@@ -88,16 +87,11 @@ export const EdittingSettings = () => {
     dispatch(userActions.clearError());
   }, [error]);
 
-  const todayYear = new Date().getFullYear();
-  const yearOptions = useMemo(() => {
-    return getYearsList(todayYear);
-  }, [todayYear]);
-
   const onAvatarChanged = (value: string) => {
     setValue("avatar", value);
     console.log("File URL => ", value);
   };
-  const formRef = React.useRef<HTMLFormElement>(null);
+
   return (
     <>
       <AvatarContainer>
@@ -111,7 +105,7 @@ export const EdittingSettings = () => {
           </SettingImageContainer>
         </FormGroupGap2>
       </AvatarContainer>
-      <SettingEdittingForm ref={formRef} onSubmit={handleSubmit(submitClick)}>
+      <SettingEdittingForm onSubmit={handleSubmit(submitClick)}>
         <input type="hidden" {...register("avatar")} />
         <SettingFormContainer>
           <FormGroupGap2>
@@ -193,78 +187,7 @@ export const EdittingSettings = () => {
           </RowOfTwo>
           <FormGroupSeparator />
           <FormGroupGap2>
-            <FormLabelStyled>Дата рождения</FormLabelStyled>
-            <RowOfElements>
-              <FormElement>
-                <Input
-                  type="number"
-                  placeholder="День"
-                  {...register("bDate", {
-                    required: "Обязательное поле",
-                    min: { value: 1, message: "Минимум 1" },
-                    max: { value: 31, message: "Максисмум 31" },
-                  })}
-                  error={errors.bDate?.message}
-                />
-                <ErrorInputLabel text={errors.bDate?.message} />
-              </FormElement>
-              <FormElement>
-                <Controller
-                  control={control}
-                  name="bMonth"
-                  rules={{
-                    required: "Обязательное поле",
-                  }}
-                  render={({
-                    field: { onChange, onBlur, value, name, ref },
-                  }) => (
-                    <SelectComponent
-                      placeholder="Месяц"
-                      options={monthOptions}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={
-                        value
-                          ? monthOptions.find((o) => o.value === value)
-                          : null
-                      }
-                      ref={ref}
-                      name={name}
-                      error={errors.bMonth?.message}
-                    />
-                  )}
-                />
-                <ErrorInputLabel text={errors.bMonth?.message} />
-              </FormElement>
-              <FormElement>
-                <Controller
-                  control={control}
-                  name="bYear"
-                  rules={{
-                    required: "Обязательное поле",
-                  }}
-                  render={({
-                    field: { onChange, onBlur, value, name, ref },
-                  }) => (
-                    <SelectComponent
-                      placeholder="Год"
-                      options={yearOptions}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={
-                        value
-                          ? yearOptions.find((o) => o.value === value)
-                          : null
-                      }
-                      ref={ref}
-                      name={name}
-                      error={errors.bYear?.message}
-                    />
-                  )}
-                />
-                <ErrorInputLabel text={errors.bYear?.message} />
-              </FormElement>
-            </RowOfElements>
+            <BirthdayFormElements formHooks={{ register, control, errors }} />
           </FormGroupGap2>
         </SettingFormContainer>
 

@@ -1,13 +1,29 @@
 import { DiscussionDto, DiscusCommentDto } from "../../Dto/discussionDto";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { themeColors } from "../../themeColors";
 import React, { useState, useMemo } from "react";
-import Item from "antd/lib/list/Item";
-import { useAppSelector, store, useAppDispatch } from "../../Config/Redux/core";
+import { useAppSelector, useAppDispatch } from "../../Config/Redux/core";
 import { DiscussionAuthorInfo } from "./DiscussionAuthorInfo";
 import DiscusIcon from "../../Asserts/Icons/discussions.svg";
 import { Input } from "../../Common/Components/Input/Input";
 import { discuccionsActions } from "./discusSlice";
+import { CommentInfo } from "./CommentInfo";
+import { openAppNotification } from "../../App";
+
+const slideIn = keyframes`
+from {
+  transform: translateY(0%);
+}
+
+to {
+  transform: translateY(100%);
+}
+`;
+const slideIn2 = keyframes`
+  0% { height: 0px;  opacity: 0;}
+  //30% { height: 50px;  opacity: 0.3; }
+  100% { height: auto;  opacity: 1; }
+ `;
 
 const DiscucCardContainer = styled.div`
   background: ${themeColors.gray1};
@@ -62,7 +78,18 @@ const DiscucCardCommentsContainer = styled.div`
   border: 1px solid ${themeColors.gray3};
   border-radius: 0px 0px 12px 12px;
   border-top: none;
-  padding: 20px;
+  padding: 17px 20px;
+
+  //height: 0px;
+  //transition: height 1s 0.3s;
+
+  animation: ${slideIn2} 1s linear;
+`;
+const ExtraCommentsSpan = styled.span`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: ${themeColors.blue8};
 `;
 
 interface DiscussionCardProps {
@@ -70,16 +97,20 @@ interface DiscussionCardProps {
   isActive: boolean;
 }
 export const DiscussionCard = (props: DiscussionCardProps) => {
-  const clients = useAppSelector((store) => store.clients.clients);
+  const currentUser = useAppSelector((store) => store.user.currentUser);
   const [showAll, setShowAll] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const commitComment = (text: string, id: number) => {
+    if (!currentUser) {
+      openAppNotification({ message: "Нет  текущего юзера" });
+      return;
+    }
     dispatch(
       discuccionsActions.addComment({
         discussionId: id,
         text: text,
-        authorId: 1, //TODO fix
+        authorId: currentUser?.id,
       } as DiscusCommentDto)
     );
   };
@@ -102,38 +133,34 @@ export const DiscussionCard = (props: DiscussionCardProps) => {
           {props.item.comments && (
             <>
               {props.item.comments.length > 1 && !showAll && (
-                <span onClick={() => setShowAll(true)}>
+                <ExtraCommentsSpan onClick={() => setShowAll(true)}>
                   {"Посмотреть еще " +
                     (props.item.comments.length - 1) +
                     " комментариев"}
-                </span>
+                </ExtraCommentsSpan>
               )}
               {showAll ? (
-                props.item.comments.map((c) => (
-                  <div>
-                    <DiscussionAuthorInfo id={c.authorId} />
-                    <p>{c.text}</p>
-                  </div>
+                props.item.comments.map((c, index) => (
+                  <CommentInfo id={c.authorId} text={c.text} key={index} />
                 ))
               ) : (
-                <div>
-                  <DiscussionAuthorInfo
-                    id={
-                      props.item.comments[props.item.comments.length - 1]
-                        .authorId
-                    }
-                  />
-                  <p>
-                    {props.item.comments[props.item.comments.length - 1].text}
-                  </p>
-                </div>
+                <CommentInfo
+                  id={
+                    props.item.comments[props.item.comments.length - 1].authorId
+                  }
+                  text={
+                    props.item.comments[props.item.comments.length - 1].text
+                  }
+                />
               )}
             </>
           )}
           <Input
             onKeyUp={(event) => {
-              event.keyCode === 13 &&
-                commitComment("some comment text", props.item.id);
+              if (event.keyCode === 13) {
+                commitComment(event.currentTarget.value, props.item.id);
+                event.currentTarget.value = "";
+              }
             }}
           />
         </DiscucCardCommentsContainer>
