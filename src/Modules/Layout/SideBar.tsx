@@ -46,7 +46,8 @@ const SideBarList = styled.div`
   height: calc(100vh - 36px);
 
   @media (max-width: ${theme.mobile}) {
-    width: 100%;
+    width: 200px;
+    height: 100vh;
     overflow: hidden;
     margin: -24px;
   }

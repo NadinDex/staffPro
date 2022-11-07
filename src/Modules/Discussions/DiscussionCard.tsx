@@ -10,21 +10,6 @@ import { discuccionsActions } from "./discusSlice";
 import { CommentInfo } from "./CommentInfo";
 import { openAppNotification } from "../../App";
 
-const slideIn = keyframes`
-from {
-  transform: translateY(0%);
-}
-
-to {
-  transform: translateY(100%);
-}
-`;
-const slideIn2 = keyframes`
-  0% { height: 0px;  opacity: 0;}
-  //30% { height: 50px;  opacity: 0.3; }
-  100% { height: auto;  opacity: 1; }
- `;
-
 const DiscucCardContainer = styled.div`
   background: ${themeColors.gray1};
   display: flex;
@@ -73,17 +58,19 @@ const CommentsCountDiv = styled.div`
   gap: 7px;
   align-items: center;
 `;
-const DiscucCardCommentsContainer = styled.div`
+const DiscucCardCommentsContainer = styled.div<DiscucCardMainContainerProps>`
   background: ${themeColors.gray1};
   border: 1px solid ${themeColors.gray3};
   border-radius: 0px 0px 12px 12px;
   border-top: none;
-  padding: 17px 20px;
+  padding: ${(props) => (props.isActive ? "17px 20px" : "0")};
 
   //height: 0px;
   //transition: height 1s 0.3s;
-
-  animation: ${slideIn2} 1s linear;
+  transition: max-height 0.8s ease-out; // note that we're transitioning max-height, not height!
+  //transition: visibility 0.2s ease-out;
+  height: auto;
+  max-height: ${(props) => (props.isActive ? "100%" : "0")};
 `;
 const ExtraCommentsSpan = styled.span`
   font-weight: 400;
@@ -128,43 +115,44 @@ export const DiscussionCard = (props: DiscussionCardProps) => {
           </CommentsCountDiv>
         </DiscucCardMainFooter>
       </DiscucCardMainContainer>
-      {props.isActive && (
-        <DiscucCardCommentsContainer>
-          {props.item.comments && (
-            <>
-              {props.item.comments.length > 1 && !showAll && (
-                <ExtraCommentsSpan onClick={() => setShowAll(true)}>
-                  {"Посмотреть еще " +
-                    (props.item.comments.length - 1) +
-                    " комментариев"}
-                </ExtraCommentsSpan>
-              )}
-              {showAll ? (
-                props.item.comments.map((c, index) => (
-                  <CommentInfo id={c.authorId} text={c.text} key={index} />
-                ))
-              ) : (
-                <CommentInfo
-                  id={
-                    props.item.comments[props.item.comments.length - 1].authorId
-                  }
-                  text={
-                    props.item.comments[props.item.comments.length - 1].text
-                  }
-                />
-              )}
-            </>
-          )}
-          <Input
-            onKeyUp={(event) => {
-              if (event.keyCode === 13) {
-                commitComment(event.currentTarget.value, props.item.id);
-                event.currentTarget.value = "";
-              }
-            }}
-          />
-        </DiscucCardCommentsContainer>
-      )}
+
+      <DiscucCardCommentsContainer
+        isActive={props.isActive}
+        style={{ visibility: props.isActive ? "visible" : "hidden" }}
+      >
+        {props.item.comments && (
+          <>
+            {props.item.comments.length > 1 && !showAll && (
+              <ExtraCommentsSpan onClick={() => setShowAll(true)}>
+                {"Посмотреть еще " +
+                  (props.item.comments.length - 1) +
+                  " комментариев"}
+              </ExtraCommentsSpan>
+            )}
+            {showAll ? (
+              props.item.comments.map((c, index) => (
+                <CommentInfo id={c.authorId} text={c.text} key={index} />
+              ))
+            ) : (
+              <CommentInfo
+                id={
+                  props.item.comments[props.item.comments.length - 1].authorId
+                }
+                text={props.item.comments[props.item.comments.length - 1].text}
+              />
+            )}
+          </>
+        )}
+        <Input
+          onKeyUp={(event) => {
+            if (event.keyCode === 13) {
+              commitComment(event.currentTarget.value, props.item.id);
+              event.currentTarget.value = "";
+            }
+          }}
+        />
+      </DiscucCardCommentsContainer>
     </DiscucCardContainer>
   );
 };
+//{props.isActive && ()}
