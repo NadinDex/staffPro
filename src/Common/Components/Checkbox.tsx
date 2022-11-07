@@ -1,7 +1,7 @@
 import { InputProps, ReactInputProps } from "./Input/Input";
 import React from "react";
 import styled from "styled-components";
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 
 const CheckboxContainer = styled.div`
   display: flex;

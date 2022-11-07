@@ -5,3 +5,7 @@ export interface AccountDto {
   paid: number;
   state: string;
 }
+export interface AccountViewDto extends AccountDto {
+  depositStr: string;
+  paidStr: string;
+}

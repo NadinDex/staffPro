@@ -1,4 +1,4 @@
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 import { OptionTypeValueNumber } from "../Constants/selectOptions";
 
 export const selectCustomStyles = (width?: string) => {

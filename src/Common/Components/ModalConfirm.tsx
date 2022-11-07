@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "antd/lib/modal/Modal";
 import { CancelButtonStyled32, ButtonStyled32 } from "./buttonStyled";
 import styled from "styled-components";
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 
 interface ModalConfirmProps {
   open: boolean;

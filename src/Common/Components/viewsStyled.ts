@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { theme } from "../Constants/theme";
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 
 export const TableView = styled.div`
   height: fit-content;
@@ -37,7 +37,13 @@ export const CardColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex: 1 0 120px;
+  flex: 1 0 150px;
+`;
+export const CardColumn1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 1 100px;
 `;
 
 export const CardFieldName = styled.div`

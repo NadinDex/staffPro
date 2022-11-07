@@ -1,4 +1,4 @@
-import { themeColors } from "../../themeColors";
+import { themeColors } from "./themeColors";
 import { OptionTypeValueNumber } from "./selectOptions";
 export interface AccountStatusType extends OptionTypeValueNumber {
   value: number;

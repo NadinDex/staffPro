@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 import React from "react";
 
 interface ErrorLabelProps {

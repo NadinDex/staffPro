@@ -33,12 +33,11 @@ const accountSlice = createSlice({
     deleteAccount: accountAdapter.removeOne,
   },
 });
-/*export const accountSelectors = (filter: Function, store: AppStateType) =>
-  accountAdapter.getSelectors(filter()).selectAll(store.accounts);*/
 
-export const { selectAll: selectAllAccounts } = accountAdapter.getSelectors(
-  (store: AppStateType) => store.invoices
-);
+export const {
+  selectAll: selectAllAccounts,
+  selectIds,
+} = accountAdapter.getSelectors((store: AppStateType) => store.invoices);
 export const accountSelectorWithFilter = (
   filter: (accounts: AccountDto[]) => AccountDto[]
 ) => createSelector(selectAllAccounts, filter);

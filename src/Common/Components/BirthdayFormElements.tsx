@@ -55,9 +55,7 @@ export const BirthdayFormElements = (props: BirthdayFormElementsProps) => {
                 options={monthOptions}
                 onChange={(e) => onChange(e.value)}
                 onBlur={onBlur}
-                value={
-                  value ? monthOptions.find((o) => o.value === value) : null
-                }
+                value={monthOptions.find((o) => o.value === value)}
                 ref={ref}
                 name={name}
                 width="225px"

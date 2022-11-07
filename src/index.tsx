@@ -7,17 +7,20 @@ import { Provider } from "react-redux";
 import { store } from "./Config/Redux/core";
 import { ConfigProvider } from "antd";
 import ruRU from "antd/es/locale/ru_RU";
+import { IntlProvider } from "react-intl";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ConfigProvider locale={ruRU}>
-        <App />
-      </ConfigProvider>
-    </Provider>
+    <IntlProvider locale="en" defaultLocale="ru">
+      <Provider store={store}>
+        <ConfigProvider locale={ruRU}>
+          <App />
+        </ConfigProvider>
+      </Provider>
+    </IntlProvider>
   </React.StrictMode>
 );
 

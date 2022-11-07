@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 import { selectCustomStyles } from "./selectCustomStyle";
 import { OptionTypeValueNumber } from "../Constants/selectOptions";
 import styled from "styled-components";
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 
 type SelectComponentProps = {
   error?: string;

@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { theme } from "../Constants/theme";
-import { themeColors } from "../../themeColors";
+import { themeColors } from "../Constants/themeColors";
 
 export const PageBGSeparator = styled.div`
   background: ${themeColors.BG};
   padding: 24px;
+  flex: 1 1 auto;
   //min-height: 100%;
   @media (max-width: ${theme.mobile}) {
     padding: 0;
@@ -38,7 +39,11 @@ export const TabContainer = styled.div`
     height: 100%;
   }
   .ant-tabs-tabpane {
-    height: 100%;
+    //height: 100%;
+    display: flex;
+  }
+  .ant-tabs-tabpane-hidden {
+    display: none;
   }
   .ant-tabs-nav::before {
     border-bottom: none;

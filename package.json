@@ -15,12 +15,15 @@
     "@types/styled-components": "^5.1.26",
     "antd": "^4.23.6",
     "bcryptjs": "^2.4.3",
+    "intl": "^1.2.5",
+    "intl-locales-supported": "^1.8.12",
     "moment": "^2.29.4",
     "node-mailjet": "^5.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.38.0",
     "react-inlinesvg": "^3.0.1",
+    "react-intl": "^6.2.1",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
@@ -56,6 +59,8 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "eslint": "^8.25.0"
+    "@types/intl": "^1.2.0",
+    "eslint": "^8.25.0",
+    "react-intl-currency-input": "^0.2.6"
   }
 }
