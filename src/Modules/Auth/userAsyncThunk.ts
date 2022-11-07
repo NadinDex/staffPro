@@ -12,25 +12,20 @@ export interface TryLoginReturnType {
 
 export const tryLogin = createAsyncThunk(
   `user/tryLogin`,
-  async (data: LoginDto, { rejectWithValue, getState }) => {
+  async (data: LoginDto, { rejectWithValue, fulfillWithValue, getState }) => {
     const { user } = getState() as AppStateType;
     let newEnterTry: UserEnterTriesState = Object.assign({}, user.enterTries);
     if (newEnterTry && newEnterTry.email === data.email) {
       if (
         newEnterTry.lastTry &&
-        Date.now() - newEnterTry.lastTry.getMilliseconds() > 10 * 60 * 1000
+        Date.now() -
+          new Date(JSON.stringify(newEnterTry.lastTry)).getMilliseconds() >
+          10 * 60 * 1000
       ) {
         newEnterTry.tries = 0;
       }
       newEnterTry.tries = newEnterTry.tries + 1;
       newEnterTry.lastTry = new Date();
-
-      if (newEnterTry.tries > 5)
-        rejectWithValue({
-          enterTries: newEnterTry,
-          currentUser: null,
-          error: "Превышено количество попыток входа, попробуйте позже",
-        });
     } else
       newEnterTry = {
         email: data.email,
@@ -38,7 +33,13 @@ export const tryLogin = createAsyncThunk(
         lastTry: new Date(),
       };
 
-    if (newEnterTry.tries <= 5) {
+    if (newEnterTry.tries > 5) {
+      rejectWithValue({
+        enterTries: newEnterTry,
+        currentUser: null,
+        error: "Превышено количество попыток входа, попробуйте позже",
+      });
+    } else {
       const currentUser = user.users.find(
         (x) =>
           x.email == data.email &&
@@ -52,7 +53,14 @@ export const tryLogin = createAsyncThunk(
           error: "Пользователь с таким эл. адресом и паролем не найден.",
         });
       }
-      return { enterTries: newEnterTry, currentUser: currentUser };
+      return {
+        enterTries: {
+          email: data.email,
+          tries: 0,
+          lastTry: new Date(),
+        },
+        currentUser: currentUser,
+      };
     }
   }
 );

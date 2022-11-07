@@ -20,6 +20,7 @@ import { theme } from "../../../Common/Constants/theme";
 import moment from "moment";
 import IntlCurrencyInput from "react-intl-currency-input";
 import { currencyConfigUsd } from "../../../Common/Constants/carrency";
+import { CurrencyInput } from "../../../Common/Components/Input/CurrencyInput";
 
 const AccountForm = styled.form`
   display: flex;
@@ -105,7 +106,6 @@ export const AccountEdit = (props: AccountEditPropsType) => {
   });
 
   const dispatch = useAppDispatch();
-  const allAccounts = useAppSelector(selectAllAccounts);
   const validForm = (formData: AccountDto) => {
     return true;
     //TODO?
@@ -137,7 +137,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
   };
   useEffect(() => {
     initiateForm();
-  }, [props.account]);
+  }, []);
 
   return (
     <AccountForm onSubmit={handleSubmit((e) => submitClick(e as AccountDto))}>
@@ -172,8 +172,9 @@ export const AccountEdit = (props: AccountEditPropsType) => {
               <DatePicker
                 onChange={(date) => onChange(date?.toDate())}
                 placeholder="Дата"
-                value={props.account ? moment(value) : undefined}
+                value={props.account && value ? moment(value) : undefined}
                 onBlur={onBlur}
+                style={{ height: "40px" }}
               />
             )}
           />
@@ -193,19 +194,23 @@ export const AccountEdit = (props: AccountEditPropsType) => {
         </FormGroupGap2>
         <FormGroupGap2>
           <FormLabelStyled>Оплачено</FormLabelStyled>
-          <Input
-            type="number"
-            placeholder="Оплачено"
-            {...register("paid", {
+          <Controller
+            control={control}
+            name="paid"
+            rules={{
               required: "Обязательное поле",
-              min: {
-                value: 0,
-                message: "Не может быть отрицательным",
-              },
-            })}
-            error={errors.paid?.message}
+            }}
+            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+              <CurrencyInput
+                placeholder="Оплачено"
+                ref={ref}
+                name={name}
+                value={value}
+                onChange={onChange}
+                error={errors.paid?.message}
+              />
+            )}
           />
-
           <ErrorInputLabel text={errors.id?.message} />
         </FormGroupGap2>
         <FormGroupGap2>
@@ -246,16 +251,3 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     </AccountForm>
   );
 };
-/*
- <IntlCurrencyInput
-            currency="USD"
-            {...register("paid", {
-              required: "Обязательное поле",
-              min: {
-                value: 0,
-                message: "Не может быть отрицательным",
-              },
-            })}
-          />
-
-          */

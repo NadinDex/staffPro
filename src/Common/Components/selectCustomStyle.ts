@@ -1,9 +1,8 @@
 import { themeColors } from "../Constants/themeColors";
-import { OptionTypeValueNumber } from "../Constants/selectOptions";
 
 export const selectCustomStyles = (width?: string) => {
   return {
-    placeholder: (provided: any, state: any) => {
+    placeholder: (provided: any) => {
       return {
         ...provided,
         fontWeight: "400",
@@ -17,11 +16,11 @@ export const selectCustomStyles = (width?: string) => {
       color: state.isSelected ? themeColors.blue6 : themeColors.gray8,
       backgroundColor: state.isSelected ? themeColors.blue1 : themeColors.gray1,
     }),
-    control: (provided: any, state: any) => {
+    control: (provided: any) => {
       return {
         ...provided,
         borderRadius: "2px",
-        height: "38px",
+        height: "40px",
         cursor: "pointer",
         width: width,
       };

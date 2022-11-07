@@ -26,7 +26,7 @@ color: ${themeColors.gray8}
 `;
 
 export const StyledInputContainer = styled.div<InputProps>`
-  height: 38px;
+  height: 40px;
   width: calc(100% - 2px);
   border: 1px solid
     ${(props) =>
@@ -86,5 +86,14 @@ export const StyledInputContainer = styled.div<InputProps>`
     height: 16px;
   }
 `;
-
+export const CurrencyContainer = styled(StyledInputContainer)`
+  .ant-input-number {
+    width: 100%;
+    border: none;
+    height: 38px;
+  }
+  input {
+    padding: 0;
+  }
+`;
 export const ErrorInputSpan = styled.span``;

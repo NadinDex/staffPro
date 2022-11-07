@@ -137,6 +137,7 @@ export const Accounts = () => {
         placement="right"
         onClose={handleEditCancel}
         open={isEditFormOpen}
+        destroyOnClose={true}
       >
         <AccountEdit
           onSubmit={handleEditOk}

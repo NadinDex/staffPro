@@ -10,13 +10,16 @@ import { discuccionsActions } from "../discusSlice";
 import { CommentInfo } from "../components/CommentInfo";
 import { openAppNotification } from "../../../App";
 
+interface DiscucCardMainContainerProps {
+  isActive: boolean;
+}
+
 const DiscucCardContainer = styled.div<DiscucCardMainContainerProps>`
   background: ${themeColors.gray1};
   display: flex;
   flex-direction: column;
   max-width: 879px;
 
-  /* reveal */
   & > .comment {
     /* unshrink, then fade in */
     font-size: ${(props) => (props.isActive ? "14px" : "0")};
@@ -27,9 +30,6 @@ const DiscucCardContainer = styled.div<DiscucCardMainContainerProps>`
   }
 `;
 
-interface DiscucCardMainContainerProps {
-  isActive: boolean;
-}
 const DiscucCardMainContainer = styled.div<DiscucCardMainContainerProps>`
   display: flex;
   flex-direction: column;
@@ -75,10 +75,6 @@ const DiscucCardCommentsContainer = styled.div<DiscucCardMainContainerProps>`
   border-top: none;
   padding: ${(props) => (props.isActive ? "17px 20px" : "0")};
 
-  //height: 0px;
-  //transition: height 1s 0.3s;
-  //transition: max-height 0.8s ease-out; // note that we're transitioning max-height, not height!
-  //transition: visibility 0.2s ease-out;
   height: auto;
   max-height: ${(props) => (props.isActive ? "fit-content" : "0")};
 `;

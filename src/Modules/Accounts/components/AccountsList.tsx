@@ -251,6 +251,7 @@ export const AccountsList = (props: AccountsListProps) => {
         placement="right"
         open={isEditFormOpen}
         onClose={handleEditCancel}
+        destroyOnClose={true}
       >
         <AccountEdit
           account={accountForEdit}
