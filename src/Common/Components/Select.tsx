@@ -79,7 +79,3 @@ export const SelectComponent = React.forwardRef(
     );
   }
 );
-/*
-getOptionLabel={(option:OptionTypeValueNumber) => option.label}
-        getOptionValue={(option:OptionTypeValueNumber) => option.value}
-*/

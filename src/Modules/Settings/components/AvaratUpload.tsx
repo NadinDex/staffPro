@@ -107,16 +107,3 @@ export const AvatarUpload = (props: AvatarUploadPropsType) => {
     </StyledFileUploader>
   );
 };
-
-/*
-<svg width="64" height="64">
-            <pattern id="pattern" width="100%" height="100%">
-              <image
-                href={imageFile ? imageFile : props.url}
-                width="64"
-                height="64"
-                preserveAspectRatio="xMidYMin slice"/>
-            </pattern>
-            <circle cx="32" cy="32" r="32" fill="url(#pattern)"></circle>
-          </svg>
-          */

@@ -41,10 +41,3 @@ export const CurrencyInput = React.forwardRef(
     );
   }
 );
-/*
-defaultValue={0}
-formatter={(value) =>
-            `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          }
-          parser={(value) => parseFloat(value!.replace(/\$\s?|(,*)/g, ""))}
-          */

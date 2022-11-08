@@ -43,4 +43,3 @@ export const Input = React.forwardRef<
     </StyledInputContainer>
   );
 });
-/*<div onClick={() => iconClick?.()}></div>*/

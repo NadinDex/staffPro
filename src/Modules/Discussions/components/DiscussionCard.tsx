@@ -23,7 +23,6 @@ const DiscucCardContainer = styled.div<DiscucCardMainContainerProps>`
   & > .comment {
     /* unshrink, then fade in */
     font-size: ${(props) => (props.isActive ? "14px" : "0")};
-    //margin: ${(props) => (props.isActive ? "14px" : "0")};
     opacity: ${(props) => (props.isActive ? "1" : "0")};
     padding: ${(props) => (props.isActive ? "14px" : "0")};
     transition: font-size 0.25s, margin 0.25s, padding 0.5s, opacity 0.5s 0.25s;
