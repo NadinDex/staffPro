@@ -55,8 +55,14 @@ const SideBarList = styled.div`
     margin: -24px;
   }
 `;
-const NavContainer = styled.div``;
+const NavContainer = styled.div`
+  cursor: pointer;
+  label {
+    cursor: pointer;
+  }
+`;
 const NavBarLink = styled.div`
+  cursor: pointer;
   height: 22spx;
   padding: 9px 25px;
   display: flex;
