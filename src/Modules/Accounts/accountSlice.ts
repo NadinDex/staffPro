@@ -18,6 +18,7 @@ const initialState = {
 
 const dateSortingFunc = (x: AccountDto, y: AccountDto) =>
   Date.parse(JSON.stringify(x.date)) - Date.parse(JSON.stringify(x.date));
+
 const accountAdapter = createEntityAdapter<AccountDto>({
   selectId: (account) => account.id,
   // Keep the "all IDs" array sorted based on book titles
@@ -38,6 +39,7 @@ export const {
   selectAll: selectAllAccounts,
   selectIds,
 } = accountAdapter.getSelectors((store: AppStateType) => store.invoices);
+
 export const accountSelectorWithFilter = (
   filter: (accounts: AccountDto[]) => AccountDto[]
 ) => createSelector(selectAllAccounts, filter);

@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { TableView, CardView } from "../../../Common/Components/viewsStyled";
 import { Table, Space, Drawer, Pagination, PaginationProps } from "antd";
-import { useAppDispatch, useAppSelector } from "../../../Config/Redux/core";
+import {
+  useAppDispatch,
+  useAppSelector,
+  store,
+} from "../../../Config/Redux/core";
 import { AccountCard } from "./AccountCard";
-import { accountActions, accountSelectorWithFilter } from "../accountSlice";
+import {
+  accountActions,
+  accountSelectorWithFilter,
+  selectAllAccounts,
+} from "../accountSlice";
 import { AccountDto, AccountViewDto } from "../../../Dto/accountDto";
 import { AccountStatusDiv } from "./AccountStatusDiv";
 import { ColumnsType } from "antd/lib/table";
@@ -15,6 +23,7 @@ import { matchMedieQueries } from "../../../Common/Constants/matchMediaqueries";
 import { PaginationContainer } from "../../../Common/Components/pageStyles";
 import { ModalConfirm } from "../../../Common/Components/ModalConfirm";
 import { FormattedNumber } from "react-intl";
+import { AppStateType } from "../../../Config/Redux/configureStore";
 
 const accountColumns = (
   deleteHandler: Function,
@@ -169,6 +178,7 @@ export const AccountsList = (props: AccountsListProps) => {
 
   //const accounts = useAppSelector(selectAllAccounts);
   const accounts = useAppSelector(accountSelectorWithFilter(props.filter));
+  console.log(accounts);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = mobile ? 4 : 10;
   const [accountsForPage, setAccountsForPage] = useState<AccountDto[]>();

@@ -34,7 +34,7 @@ export const tryLogin = createAsyncThunk(
       };
 
     if (newEnterTry.tries > 5) {
-      rejectWithValue({
+      return rejectWithValue({
         enterTries: newEnterTry,
         currentUser: null,
         error: "Превышено количество попыток входа, попробуйте позже",
@@ -47,7 +47,7 @@ export const tryLogin = createAsyncThunk(
             bcrypt.hashSync(data.password, "$2a$10$CwTycUXWue0Thq9StjUM0u")
       );
       if (!currentUser) {
-        rejectWithValue({
+        return rejectWithValue({
           enterTries: newEnterTry,
           currentUser: null,
           error: "Пользователь с таким эл. адресом и паролем не найден.",
@@ -76,7 +76,9 @@ export const tryChangePassword = createAsyncThunk(
       );
       return currentUser;
     } else {
-      rejectWithValue("Не найден пользователь с указанным почтовым адесом");
+      return rejectWithValue(
+        "Не найден пользователь с указанным почтовым адесом"
+      );
     }
   }
 );

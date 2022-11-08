@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HeaderTitleDiv, HeaderTitle } from "../../Layout/components/Header";
-import { Pagination, PaginationProps } from "antd";
+import { Pagination, PaginationProps, Empty } from "antd";
 import { useAppSelector } from "../../../Config/Redux/core";
 import { DiscussionCard } from "../components/DiscussionCard";
 import {
@@ -45,11 +45,15 @@ export const Discussions = () => {
       <PageBGSeparator>
         <PageContainer>
           <DiscussionContainer>
-            {discussions.map((d) => (
-              <div key={d.id} onClick={() => setActiveId(d.id)}>
-                <DiscussionCard item={d} isActive={d.id === activeId} />
-              </div>
-            ))}
+            {!discussions || discussions.length == 0 ? (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ) : (
+              discussions.map((d) => (
+                <div key={d.id} onClick={() => setActiveId(d.id)}>
+                  <DiscussionCard item={d} isActive={d.id === activeId} />
+                </div>
+              ))
+            )}
 
             {discussions.length > 10 && (
               <Pagination

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "../../../Config/Redux/core";
 import { ClientCard } from "./ClientCard";
-import { Table } from "antd";
+import { Table, Empty } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import "antd/dist/antd.css";
 import { ClientAvatar } from "../components/clientStyledElements";
@@ -72,11 +72,12 @@ const columns: ColumnsType<ClientDto> = [
 
 export const ClientList = () => {
   const [mobile] = useMatchMedia(matchMedieQueries);
-  const clients = useAppSelector((store) => store.clients.clients).map((c) => {
-    let client = Object.assign({}, c);
+  const clients: ClientDto[] | undefined = [];
+  /*const clients = useAppSelector((store) => store.clients.clients).map((c) => {
+    let client = Object.assign({}, c);  
     client.imageSrc = clientAvatarServerUrl + client.imageSrc;
     return client;
-  });
+  });*/
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -95,9 +96,11 @@ export const ClientList = () => {
               <TableView>
                 <Table dataSource={clients} columns={columns} rowKey="id" />
               </TableView>
+            ) : !clients || clients.length == 0 ? (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             ) : (
               <CardView>
-                {clients.map((client) => (
+                {clients?.map((client) => (
                   <ClientCard client={client} key={client.id} />
                 ))}
               </CardView>
