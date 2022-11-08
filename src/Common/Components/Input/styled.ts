@@ -87,6 +87,16 @@ export const StyledInputContainer = styled.div<InputProps>`
   }
 `;
 export const CurrencyContainer = styled(StyledInputContainer)`
+  .ant-input-number-affix-wrapper {
+    width: 100%;
+    border: none;
+    height: 38px;
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: ${themeColors.gray8};
+  }
   .ant-input-number {
     width: 100%;
     border: none;
@@ -94,6 +104,12 @@ export const CurrencyContainer = styled(StyledInputContainer)`
   }
   input {
     padding: 0;
+    margin-left: 0;
+
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: ${themeColors.gray8};
   }
 `;
 export const ErrorInputSpan = styled.span``;

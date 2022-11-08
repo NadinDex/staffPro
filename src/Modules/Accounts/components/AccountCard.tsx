@@ -58,7 +58,7 @@ export const AccountCard = (props: AccountCardProps) => {
         <CardField>
           <AccountStatusDiv status={props.account.state} />
         </CardField>
-        <CardField>
+        <div>
           <Space size="middle">
             <a href="#" onClick={() => props.deleteHandler(props.account.id)}>
               Delete{" "}
@@ -68,7 +68,7 @@ export const AccountCard = (props: AccountCardProps) => {
               Edit
             </a>
           </Space>
-        </CardField>
+        </div>
       </CardColumn>
     </CardContainer>
   );

@@ -1,6 +1,6 @@
 export interface AccountDto {
   id: string;
-  date: Date;
+  date: string;
   deposit: number;
   paid: number;
   state: string;

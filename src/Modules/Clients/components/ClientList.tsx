@@ -72,12 +72,11 @@ const columns: ColumnsType<ClientDto> = [
 
 export const ClientList = () => {
   const [mobile] = useMatchMedia(matchMedieQueries);
-  const clients: ClientDto[] | undefined = [];
-  /*const clients = useAppSelector((store) => store.clients.clients).map((c) => {
-    let client = Object.assign({}, c);  
+  const clients = useAppSelector((store) => store.clients.clients).map((c) => {
+    let client = Object.assign({}, c);
     client.imageSrc = clientAvatarServerUrl + client.imageSrc;
     return client;
-  });*/
+  });
 
   const dispatch = useAppDispatch();
   useEffect(() => {

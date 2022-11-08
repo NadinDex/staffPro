@@ -3,6 +3,18 @@ import { InputProps } from "./Input";
 import { InputNumber, InputNumberProps } from "antd";
 import { CurrencyContainer } from "./styled";
 
+function getCurrencySymbol(locale: string, currency: string) {
+  return (0)
+    .toLocaleString(locale, {
+      style: "currency",
+      currency: currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })
+    .replace(/\d/g, "")
+    .trim();
+}
+
 export const CurrencyInput = React.forwardRef(
   (
     props: InputNumberProps & {
@@ -21,11 +33,7 @@ export const CurrencyInput = React.forwardRef(
         <InputNumber
           ref={ref}
           {...rest}
-          defaultValue={0}
-          formatter={(value) =>
-            `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          }
-          parser={(value) => value!.replace(/\$\s?|(,*)/g, "")}
+          prefix={getCurrencySymbol("en", "USD")}
         >
           {children}
         </InputNumber>
@@ -33,3 +41,10 @@ export const CurrencyInput = React.forwardRef(
     );
   }
 );
+/*
+defaultValue={0}
+formatter={(value) =>
+            `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          }
+          parser={(value) => parseFloat(value!.replace(/\$\s?|(,*)/g, ""))}
+          */

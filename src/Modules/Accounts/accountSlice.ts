@@ -12,16 +12,12 @@ export interface AccountsState {
   operationSucceded?: boolean;
 }
 
-const initialState = {
-  accounts: new Array<AccountDto>(),
-} as AccountsState;
-
 const dateSortingFunc = (x: AccountDto, y: AccountDto) =>
-  Date.parse(JSON.stringify(x.date)) - Date.parse(JSON.stringify(x.date));
+  Date.parse(y.date) - Date.parse(x.date);
 
 const accountAdapter = createEntityAdapter<AccountDto>({
   selectId: (account) => account.id,
-  // Keep the "all IDs" array sorted based on book titles
+  // Keep the "all IDs" array sorted based on account date
   sortComparer: dateSortingFunc,
 });
 

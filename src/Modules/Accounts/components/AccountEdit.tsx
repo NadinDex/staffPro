@@ -4,7 +4,6 @@ import React, { HTMLAttributes, useEffect } from "react";
 import {
   FormGroupGap2,
   FormLabelStyled,
-  FormGroupSeparator,
 } from "../../../Common/Components/formStyledElements";
 import { Input } from "../../../Common/Components/Input/Input";
 import { AccountDto } from "../../../Dto/accountDto";
@@ -14,12 +13,10 @@ import { DatePicker } from "antd";
 import { SelectComponent } from "../../../Common/Components/Select";
 import { AccountStatus } from "../../../Common/Constants/accountStatus";
 import { AccountAddButtons } from "./AccountAddButtons";
-import { useAppDispatch, useAppSelector } from "../../../Config/Redux/core";
-import { accountActions, selectAllAccounts } from "../accountSlice";
+import { useAppDispatch } from "../../../Config/Redux/core";
+import { accountActions } from "../accountSlice";
 import { theme } from "../../../Common/Constants/theme";
 import moment from "moment";
-import IntlCurrencyInput from "react-intl-currency-input";
-import { currencyConfigUsd } from "../../../Common/Constants/carrency";
 import { CurrencyInput } from "../../../Common/Components/Input/CurrencyInput";
 
 const AccountForm = styled.form`
@@ -45,14 +42,18 @@ const AccountForm = styled.form`
   }
 `;
 const AccountFormContainer = styled.div`
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 14px 24px;
   width: 100%;
   height: 100%;
 `;
 
 const AccountFormHeader = styled.div`
   box-shadow: inset 0px -1px 0px ${themeColors.gray5};
-  padding: 16px;
+  padding: 14px 16px 16px 16px;
   width: 100%;
   label {
     font-weight: 600;
@@ -94,7 +95,6 @@ export const AccountEdit = (props: AccountEditPropsType) => {
     control,
     handleSubmit,
     reset,
-    setValue,
   } = useForm<AccountDto>({
     defaultValues: {
       id: undefined,
@@ -106,7 +106,7 @@ export const AccountEdit = (props: AccountEditPropsType) => {
   });
 
   const dispatch = useAppDispatch();
-  const validForm = (formData: AccountDto) => {
+  const validForm = (data: AccountDto) => {
     return true;
     //TODO?
   };
@@ -147,7 +147,6 @@ export const AccountEdit = (props: AccountEditPropsType) => {
         </label>
       </AccountFormHeader>
       <AccountFormContainer>
-        <FormGroupSeparator />
         <FormGroupGap2>
           <FormLabelStyled>Номер</FormLabelStyled>
           <Input
@@ -198,9 +197,9 @@ export const AccountEdit = (props: AccountEditPropsType) => {
             control={control}
             name="paid"
             rules={{
-              required: "Обязательное поле",
+              min: { value: 0, message: "Не может быть отрицательным" },
             }}
-            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            render={({ field: { onChange, value, name, ref } }) => (
               <CurrencyInput
                 placeholder="Оплачено"
                 ref={ref}

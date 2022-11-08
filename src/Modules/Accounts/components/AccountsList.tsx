@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { TableView, CardView } from "../../../Common/Components/viewsStyled";
 import { Table, Space, Drawer, Pagination, PaginationProps } from "antd";
-import {
-  useAppDispatch,
-  useAppSelector,
-  store,
-} from "../../../Config/Redux/core";
+import { useAppDispatch, useAppSelector } from "../../../Config/Redux/core";
 import { AccountCard } from "./AccountCard";
-import {
-  accountActions,
-  accountSelectorWithFilter,
-  selectAllAccounts,
-} from "../accountSlice";
-import { AccountDto, AccountViewDto } from "../../../Dto/accountDto";
+import { accountActions, accountSelectorWithFilter } from "../accountSlice";
+import { AccountDto } from "../../../Dto/accountDto";
 import { AccountStatusDiv } from "./AccountStatusDiv";
 import { ColumnsType } from "antd/lib/table";
 import styled from "styled-components";
@@ -23,7 +15,14 @@ import { matchMedieQueries } from "../../../Common/Constants/matchMediaqueries";
 import { PaginationContainer } from "../../../Common/Components/pageStyles";
 import { ModalConfirm } from "../../../Common/Components/ModalConfirm";
 import { FormattedNumber } from "react-intl";
-import { AppStateType } from "../../../Config/Redux/configureStore";
+import { themeColors } from "../../../Common/Constants/themeColors";
+
+const InvNameSpan = styled.span`
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
+  color: ${themeColors.gray8};
+`;
 
 const accountColumns = (
   deleteHandler: Function,
@@ -35,6 +34,7 @@ const accountColumns = (
       dataIndex: "id",
       key: "id",
       width: "34.5%",
+      render: (_, account) => <InvNameSpan>{account.id}</InvNameSpan>,
     },
     {
       title: "Дата",
@@ -59,7 +59,7 @@ const accountColumns = (
       width: "10.5%",
       className: "column-money",
       align: "right",
-      render: (value, account) => {
+      render: (value) => {
         return (
           <FormattedNumber
             value={value}
@@ -77,7 +77,7 @@ const accountColumns = (
       key: "paid",
       className: "column-money",
       align: "right",
-      render: (value, account) => {
+      render: (value) => {
         return (
           <FormattedNumber
             value={value}
