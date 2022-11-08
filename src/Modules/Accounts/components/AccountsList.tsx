@@ -23,6 +23,37 @@ const InvNameSpan = styled.span`
   line-height: 22px;
   color: ${themeColors.gray8};
 `;
+const AccountContainer = styled.div`
+  padding: 24px;
+
+  .ant-modal,
+  .ant-modal-content {
+    height: 100vh;
+    margin: 0;
+    top: 0;
+    right: 0;
+  }
+  .ant-modal-body {
+    height: calc(100vh - 110px);
+  }
+  .ant-modal-header {
+    border-bottom-width: 0;
+  }
+  .ant-modal-footer {
+    border-top-width: 0;
+  }
+  .ant-modal-close {
+    display: none;
+  }
+  .my-special-modal {
+    .ant-modal-header {
+      border-bottom-width: 0;
+    }
+    .ant-modal-footer {
+      border-top-width: 0;
+    }
+  }
+`;
 
 const accountColumns = (
   deleteHandler: Function,
@@ -59,17 +90,6 @@ const accountColumns = (
       width: "10.5%",
       className: "column-money",
       align: "right",
-      render: (value) => {
-        return (
-          <FormattedNumber
-            value={value}
-            style="currency"
-            currency="USD"
-            minimumFractionDigits={0}
-            maximumFractionDigits={2}
-          />
-        );
-      },
     },
     {
       title: "Оплачено",
@@ -118,59 +138,9 @@ const accountColumns = (
   ];
 };
 
-const AccountContainer = styled.div`
-  padding: 24px;
-
-  .ant-modal,
-  .ant-modal-content {
-    height: 100vh;
-    margin: 0;
-    top: 0;
-    right: 0;
-  }
-  .ant-modal-body {
-    height: calc(100vh - 110px);
-  }
-  .ant-modal-header {
-    border-bottom-width: 0;
-  }
-  .ant-modal-footer {
-    border-top-width: 0;
-  }
-  .ant-modal-close {
-    display: none;
-  }
-  .my-special-modal {
-    .ant-modal-header {
-      border-bottom-width: 0;
-    }
-    .ant-modal-footer {
-      border-top-width: 0;
-    }
-  }
-`;
-
 interface AccountsListProps {
   filter: (accounts: AccountDto[]) => AccountDto[];
 }
-
-/*const mapFunc = (acc: AccountDto): AccountViewDto => {
-  return {
-    ...acc,
-    depositStr: new Intl.NumberFormat("en", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(acc.deposit),
-    paidStr: new Intl.NumberFormat("en", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }).format(acc.paid),
-  };
-};*/
 
 export const AccountsList = (props: AccountsListProps) => {
   const [mobile] = useMatchMedia(matchMedieQueries);
